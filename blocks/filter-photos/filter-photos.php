@@ -41,17 +41,12 @@ $filterLabel = 'Что проверяем';
 
 	<?php foreach ($photos as $i => $group): ?>
 	<div class="kf-filter-photos__group sds-slider" data-panel="<?= (int)$i ?>">
-		<ul class="kf-filter-photos__track sds-slider__track" role="group" tabindex="0"
-		    aria-label="Кадры: <?= $te($group['group']) ?>">
-			<?php foreach ($group['items'] as $item): ?>
-			<li class="kf-filter-photos__frame sds-slider__card rs-anim">
-				<?php if (!empty($item['image'])): ?>
-				<img src="<?= $te($item['image']) ?>" alt="" loading="lazy">
-				<?php endif; ?>
-			</li>
-			<?php endforeach; ?>
-		</ul>
-		<?php include dirname($_SERVER['DOCUMENT_ROOT']) . '/atoms/counter/counter.php'; ?>
+		<?php
+		$frames = $group['items'];
+		$framesLabel = 'Кадры: ' . $group['group'];
+		include dirname($_SERVER['DOCUMENT_ROOT']) . '/atoms/frames/frames.php';
+		include dirname($_SERVER['DOCUMENT_ROOT']) . '/atoms/counter/counter.php';
+		?>
 	</div>
 	<?php endforeach; ?>
 </section>

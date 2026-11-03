@@ -43,6 +43,11 @@ include $engine . '/blocks/main/head.php';
        ─────────────────────────────────────────────────────────────── */ ?>
 
 <?php
+/* 2. Первый экран. Здесь же единственный h1 страницы: его назначает
+      сборщик, и на главной это первый экран. */
+$heroHeadingTag = 'h1';
+include $root . '/blocks/hero/hero.php';
+
 /* 7. Конструкции упаковки: плитки под фильтром, тёмная подложка. */
 $filterTilesTitle = ['Конструкции', 'упаковки'];
 include $root . '/blocks/filter-tiles/filter-tiles.php';

@@ -32,43 +32,9 @@
 
 .kf-filter-photos__filter{ margin-bottom:var(--kf-s-16); }
 
-/* Дорожка: широкий кадр, за ним узкий. Ширины долями с вычетом
-   половины отбивки — так пара занимает ряд целиком, как на
-   утверждённом сайте. Прокрутку, привязку и перетаскивание даёт
-   атом slider, здесь только раскладка. */
-.kf-filter-photos__track{
-	display:flex;
-	gap:var(--kf-s-12);
-	margin:0 0 var(--kf-s-24);
-	padding:0;
-	list-style:none;
-}
-.kf-filter-photos__frame{
-	overflow:hidden;
-	flex:0 0 auto;
-	width:100%;
-	aspect-ratio:360 / 312;
-	border-radius:var(--kf-radius);
-	background:var(--kf-color-placeholder);
-}
-@media (min-width:641px){
-	.kf-filter-photos__frame:nth-child(odd){
-		width:calc(66.6666% - var(--kf-s-6));
-		aspect-ratio:685 / 434;
-	}
-	.kf-filter-photos__frame:nth-child(even){
-		width:calc(33.3333% - var(--kf-s-6));
-		aspect-ratio:339 / 434;
-	}
-}
-.kf-filter-photos__frame img{
-	display:block;
-	width:100%; height:100%;
-	object-fit:cover;
-}
-
-/* Счётчик прижат к правому краю: по центру он на утверждённом сайте
-   только на узком экране, где и дорожка в один кадр. */
+/* Раскладка кадров — в atoms/frames: она общая с первым экраном.
+   Здесь только отбивка счётчика от дорожки. */
+.kf-filter-photos .kf-counter{ margin-top:var(--kf-s-24); }
 @media (min-width:641px){
 	.sds-slider--js .kf-filter-photos__group .kf-counter{ justify-content:flex-end; }
 }

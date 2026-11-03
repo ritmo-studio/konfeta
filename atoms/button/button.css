@@ -1,0 +1,17 @@
+/* Кнопка: заливка акцентом-2, скруглена целиком, подпись прописными. */
+.kf-button{
+	font:var(--kf-text-body);
+	display:flex;
+	width:max-content;
+	padding:var(--kf-s-12) var(--kf-s-32);
+	cursor:pointer;
+	text-transform:uppercase;
+	justify-content:center;
+	color:var(--kf-color-on-accent);
+	border:1px solid transparent;
+	border-radius:50px;
+	background:var(--kf-color-accent-2);
+	transition:background-color var(--kf-dur) var(--kf-ease);
+}
+.kf-button:hover{ background:var(--kf-color-hover); }
+.kf-button--wide{ width:100%; }

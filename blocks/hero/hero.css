@@ -1,0 +1,44 @@
+/* Первый экран. */
+.kf-hero{
+	padding:var(--kf-s-48) var(--kf-page-inline);
+	color:var(--kf-color-text);
+}
+@media (min-width:641px){ .kf-hero{ padding:var(--kf-s-64) var(--kf-page-inline); } }
+@media (min-width:1081px){ .kf-hero{ padding:var(--kf-s-88) var(--kf-page-inline); } }
+
+.kf-hero__head{
+	display:flex;
+	flex-direction:column;
+	gap:var(--kf-s-16);
+	margin-bottom:var(--kf-s-24);
+}
+@media (min-width:641px){
+	/* Заголовок и пояснение рядом: две трети на заголовок, треть на
+	   текст, оба прижаты к низу строки — block--title.-grid в исходнике. */
+	.kf-hero__head{
+		display:grid;
+		grid-template-columns:2fr 1fr;
+		align-items:end;
+		gap:var(--kf-s-8);
+		margin-bottom:var(--kf-s-40);
+	}
+}
+
+.kf-hero__title{
+	font:var(--kf-text-title);
+	letter-spacing:var(--kf-text-title-tracking);
+	margin:0;
+}
+.kf-hero__title span{
+	font-family:var(--kf-font-display);
+	color:var(--kf-color-accent);
+}
+.kf-hero__lead{ font:var(--kf-text-body); margin:0; }
+@media (min-width:641px){ .kf-hero__lead{ font:var(--kf-text-lead); } }
+
+.kf-hero .kf-counter{ margin-top:var(--kf-s-24); }
+
+/* Кнопка только на узком экране и после кадров: на широком её роль
+   берёт шапка, и в макете её здесь нет. */
+.kf-hero__cta{ margin-top:var(--kf-s-24); }
+@media (min-width:641px){ .kf-hero__cta{ display:none; } }

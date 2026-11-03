@@ -48,7 +48,10 @@
      потолком — 1870px, и этот вес платят все), и шкала перестаёт
      расходиться с библиотечной. */
   --kf-layout-max:1440px;
-  --kf-page-inline:max(var(--kf-s-8), calc((100% - var(--kf-layout-max)) / 2 + var(--kf-s-8)));
+  /* Отступ растёт по ширинам: 8 на узком, 24 от 641, 32 от 1081 —
+     так на утверждённом сайте. Переключается внизу файла. */
+  --kf-page-padding:var(--kf-s-8);
+  --kf-page-inline:max(var(--kf-page-padding), calc((100% - var(--kf-layout-max)) / 2 + var(--kf-page-padding)));
 
   /* Цвет */
   --kf-color-page:#FBF7F3;
@@ -59,6 +62,7 @@
   --kf-color-text:#24160B;
   --kf-color-text-subdued:#24160B99;
   --kf-color-on-dark:#FFFFFF;
+  --kf-color-on-accent:#ECF1F3;
   /* Тёмная подложка блока конструкций. На утверждённом сайте там
      фотография производства; до картиночной итерации — плоский цвет. */
   --kf-color-dark:#24160B;
@@ -99,6 +103,8 @@
 @media (max-width:640px){
   :root{ --kf-unit:clamp(8px, 2.133333333333333vw, 13.65px); }
 }
+@media (min-width:641px){ :root{ --kf-page-padding:var(--kf-s-24); } }
+@media (min-width:1081px){ :root{ --kf-page-padding:var(--kf-s-32); } }
 
 /* ─────────────────────────────────────────────────────────────
    МОСТ ДЛЯ АТОМОВ БИБЛИОТЕКИ. Атом slider приехал из SEO Design
