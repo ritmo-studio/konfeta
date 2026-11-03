@@ -12,6 +12,11 @@
  *
  * Знака «смотри ниже» в этой секции на сайте нет.
  *
+ * Появления по входу в экран у шага нет намеренно: на широком экране
+ * шаги раскладываются гармошкой (steps.js), и наблюдатель rs-anim
+ * спорил бы с ней за transform. На узком экране гармошки нет, но
+ * класс не навешиваем и там — иначе разметка зависела бы от ширины.
+ *
  * Уровень заголовка приходит снаружи в $stepsHeadingTag.
  */
 $data = $steps ?? include dirname($_SERVER['DOCUMENT_ROOT']) . '/content/steps.php';
@@ -35,7 +40,7 @@ $title = $data['title'];
 	</div>
 	<ol class="kf-steps__list">
 		<?php foreach ($data['steps'] as $i => $step): ?>
-		<li class="kf-steps__step rs-anim">
+		<li class="kf-steps__step">
 			<p class="kf-steps__number" aria-hidden="true"><?= str_pad((string)($i + 1), 2, '0', STR_PAD_LEFT) ?></p>
 			<div class="kf-steps__body">
 				<p class="kf-steps__name"><?= $te($step['name']) ?></p>
