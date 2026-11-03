@@ -21,6 +21,16 @@
 				t.setAttribute('aria-pressed', on ? 'true' : 'false');
 			});
 			if (select && select.selectedIndex !== index) select.selectedIndex = index;
+
+			/* Панель была скрыта: у скрытой дорожки нет ни ширины, ни
+			   прокрутки, поэтому слайдер внутри пересчитывается только
+			   сейчас. resize — для атома slider, своего события он не
+			   слушает; kf:shown — для счётчика. */
+			var shown = panels[index];
+			if (shown) {
+				shown.dispatchEvent(new Event('kf:shown'));
+				window.dispatchEvent(new Event('resize'));
+			}
 		}
 
 		tabs.forEach(function (t, i) {

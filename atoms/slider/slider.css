@@ -1,0 +1,34 @@
+/* atom slider v1.3 · общий механизм дорожки: прокрутка, перетаскивание, маска правого
+   края, показ стрелок/пагинации после скрипта. Код — slider.js (тоже общий). Разметку
+   трека и карточек даёт блок, атом только управляет поведением классов sds-slider__*.
+   Перенесено из views-slider при появлении photo-slider — тот же механизм, не копия. */
+.sds .sds-slider__track{overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:none}
+.sds .sds-slider__track::-webkit-scrollbar{display:none}
+.sds .sds-slider__track:focus-visible{outline:2px solid var(--sds-color-accent);outline-offset:3px}
+.sds .sds-slider__card{scroll-snap-align:start}
+
+.sds .sds-slider__track.is-free{scroll-snap-type:none}
+.sds .sds-slider__track{--sds-slider-fade:0px;-webkit-mask-image:linear-gradient(to right,#000 calc(100% - var(--sds-slider-fade)),transparent);mask-image:linear-gradient(to right,#000 calc(100% - var(--sds-slider-fade)),transparent)}
+
+/* Пагинация отбита от дорожки на шаг секции — его задаёт блок (общий flex-gap
+   секции или свой margin), а не атом: шаг секции разный на ПК и мобильной, и в
+   макетах зазор дорожка→бар равен именно ему (photo-slider/reviews-slider: 32 и 24).
+   Атом гасит только собственную прозрачную зону площадки клика — кнопка 24 при
+   полоске 4, то есть по 10 сверху и снизу (--sds-pager-offset отрицательный).
+   Без этого визуальный зазор выходил на 10 больше заданного, а нижняя зона
+   добирала те же 10 к нижнему отступу секции. Площадка клика остаётся 24.
+   Бар выровнен по левому краю содержимого (в макетах он начинается там же, где
+   заголовок и дорожка), поэтому своего padding-left у пагинации нет. */
+.sds.sds-slider .sds-pager{margin-top:var(--sds-pager-offset);margin-bottom:var(--sds-pager-offset)}
+.sds.sds-slider--js .sds-pager{display:flex}
+/* Нечего листать на этой ширине (мало карточек, дорожка не упирается в край) —
+   стрелки и точки прячутся, а не стоят неработающими. См. slider.js updateOverflow. */
+.sds.sds-slider--no-overflow .sds-pager{display:none}
+
+@media (min-width:768px){
+  .sds.sds-slider--js .sds-arrows{display:flex}
+  .sds.sds-slider--no-overflow .sds-arrows{display:none}
+  .sds.sds-slider--js .sds-slider__track{cursor:grab}
+  .sds.sds-slider--js .sds-slider__track.is-dragging{cursor:grabbing;user-select:none;-webkit-user-select:none}
+  .sds .sds-slider__track img{-webkit-user-drag:none}
+}
