@@ -4,7 +4,7 @@
 .sds-slider--js .kf-counter{
 	display:flex;
 	align-items:center;
-	justify-content:center;
+	justify-content:flex-start;
 	gap:var(--kf-s-24);
 }
 /* Листать нечего — органы управления не висят мёртвыми. */

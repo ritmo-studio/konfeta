@@ -58,6 +58,3 @@
 /* Раскладка кадров — в atoms/frames: она общая с первым экраном.
    Здесь только отбивка счётчика от дорожки. */
 .kf-filter-photos .kf-counter{ margin-top:var(--kf-s-32); }
-@media (min-width:641px){
-	.sds-slider--js .kf-filter-photos__group .kf-counter{ justify-content:flex-end; }
-}
