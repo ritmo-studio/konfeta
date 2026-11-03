@@ -1,0 +1,82 @@
+/* Нам доверяют. Значения с утверждённой вёрстки: сетка 2 → 4 → 6
+   колонок с отбивкой 8, плашка 237 / 128 со скруглением 6 и еле
+   заметной рамкой, фотография при наведении 36 юнитов в ширину,
+   пропорция 280 / 308.
+
+   Секция режет только по горизонтали: фотография у крайней плашки
+   выходит за боковой отступ, и обрезать её нужно по краю экрана, а не
+   вместе с вертикальной прокруткой. */
+.kf-logos{
+	overflow-x:clip;
+	padding:var(--kf-s-48) var(--kf-page-inline);
+	color:var(--kf-color-text);
+}
+@media (min-width:641px){ .kf-logos{ padding:var(--kf-s-64) var(--kf-page-inline); } }
+@media (min-width:1081px){ .kf-logos{ padding:var(--kf-s-88) var(--kf-page-inline); } }
+
+.kf-logos__title{
+	font:var(--kf-text-title);
+	letter-spacing:var(--kf-text-title-tracking);
+	margin:0 0 var(--kf-s-16);
+	text-align:center;
+}
+@media (min-width:641px){ .kf-logos__title{ margin-bottom:var(--kf-s-24); text-align:left; } }
+.kf-logos__title span{ font-family:var(--kf-font-display); color:var(--kf-color-accent); }
+
+.kf-logos__grid{
+	display:grid;
+	grid-template-columns:repeat(2,1fr);
+	gap:var(--kf-s-8);
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+@media (min-width:641px){ .kf-logos__grid{ grid-template-columns:repeat(4,1fr); } }
+@media (min-width:1081px){ .kf-logos__grid{ grid-template-columns:repeat(6,1fr); } }
+
+/* Плашка не режет своё содержимое: фотография выезжает за её края.
+   Наведённая плашка поднимается над соседями, иначе фотография уйдёт
+   под следующую. */
+.kf-logos__item{
+	position:relative;
+	z-index:1;
+	overflow:visible;
+	aspect-ratio:237 / 128;
+	border:1px solid var(--kf-color-border-soft);
+	border-radius:var(--kf-s-6);
+}
+.kf-logos__item:hover{ z-index:20; }
+
+.kf-logos__logo{ display:flex; height:100%; }
+.kf-logos__logo img{ width:100%; height:100%; object-fit:contain; }
+
+/* Положение узла задаёт скрипт — он ставит left и top по курсору.
+   Сдвиг на половину и рост от нуля — здесь: так фотография растёт из
+   точки под курсором, а не из угла плашки. */
+.kf-logos__shot{
+	position:absolute;
+	z-index:100;
+	top:0;
+	left:0;
+	pointer-events:none;
+	opacity:0;
+}
+/* Вид и рост — на рамке, а не на картинке: пока файлов нет, по
+   наведению выезжает место под фотографию той же пропорции. */
+.kf-logos__frame{
+	overflow:hidden;
+	width:calc(var(--kf-unit) * 36);
+	aspect-ratio:280 / 308;
+	border-radius:var(--kf-radius-s);
+	background:var(--kf-color-placeholder);
+	transform:translate(-50%,-50%) scale(0);
+	transform-origin:center center;
+	transition:transform var(--kf-dur-mid) var(--kf-ease-inout);
+}
+.kf-logos__frame img{ display:block; width:100%; height:100%; object-fit:cover; }
+.kf-logos__shot.is-visible{ opacity:1; }
+.kf-logos__shot.is-visible .kf-logos__frame{ transform:translate(-50%,-50%) scale(1); }
+
+@media (prefers-reduced-motion:reduce){
+	.kf-logos__frame{ transition:none; }
+}

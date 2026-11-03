@@ -390,6 +390,28 @@ if (document.readyState ==='loading') document.addEventListener('DOMContentLoade
 else start();
 })();
 (() => {
+const section = document.querySelector('.kf-logos');
+if (!section) return;
+if (!window.matchMedia('(min-width:641px),(pointer:fine)').matches) return;
+section.querySelectorAll('.kf-logos__item').forEach((item) => {
+const shot = item.querySelector('.kf-logos__shot');
+if (!shot) return;
+const place = (event) => {
+const rect = item.getBoundingClientRect();
+shot.style.left =`${event.clientX - rect.left}px`;
+shot.style.top =`${event.clientY - rect.top}px`;
+};
+item.addEventListener('mousemove', place);
+item.addEventListener('mouseenter', (event) => {
+place(event);
+shot.classList.add('is-visible');
+});
+item.addEventListener('mouseleave', () => {
+shot.classList.remove('is-visible');
+});
+});
+})();
+(() => {
 const section = document.querySelector('.kf-steps');
 if (!section) return;
 const list = section.querySelector('.kf-steps__list');

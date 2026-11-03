@@ -75,4 +75,9 @@ include $root . '/blocks/filter-photos/filter-photos.php';
 include $root . '/blocks/steps/steps.php';
 ?>
 
+<?php
+/* 10. Нам доверяют: плашки логотипов, фотография по наведению. */
+include $root . '/blocks/logos/logos.php';
+?>
+
 <?php include $engine . '/blocks/main/footer.php'; ?>
