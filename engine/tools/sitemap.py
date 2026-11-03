@@ -26,11 +26,14 @@ NOINDEX = re.compile(r'\$noindex\s*=\s*true')
 
 def main() -> None:
     pages = []
-    # Страница это либо PHP-файл в корне, либо папка с index.php —
-    # второе нужно, чтобы адрес был /about/, а не /about.php.
     # Страница это либо PHP-файл в докруте, либо папка с index.php —
     # второе нужно, чтобы адрес был /about/, а не /about.php.
-    files = sorted(list(PUBLIC.glob("*.php")) + list(PUBLIC.glob("*/index.php")))
+    #
+    # Папки ищутся на любой глубине: страницы живут и вложенно
+    # (/authors/dmitry-glukhov/). При поиске только по одному уровню
+    # такая страница молча не попадала в карту — а узнать об этом
+    # можно было лишь по счётчику в конце сборки.
+    files = sorted(set(PUBLIC.glob("*.php")) | set(PUBLIC.rglob("index.php")))
     for f in files:
         src = f.read_text(encoding="utf-8")
         m = URL.search(src)
