@@ -30,7 +30,7 @@ include $engine . '/blocks/main/head.php';
 
        1.  site-header       шапка библиотеки + мобильное меню
        2.  kf-hero-collage   h1, коллаж из 12 кадров
-       3.  kf-facts          «Почему нас выбирают», четыре факта
+       3.  kf-facts          «Почему нас выбирают», шесть фактов пирамидой
        4.  kf-cards-slider   «Виды упаковки», 7 карточек, атом slider
        5.  kf-video          «Процесс создания упаковки»
        6.  kf-cards-grid     «Упаковка по назначению», 6 карточек
@@ -47,6 +47,9 @@ include $engine . '/blocks/main/head.php';
       сборщик, и на главной это первый экран. */
 $heroHeadingTag = 'h1';
 include $root . '/blocks/hero/hero.php';
+
+/* 3. Почему нас выбирают: шесть фактов пирамидой. */
+include $root . '/blocks/facts/facts.php';
 
 /* 7. Конструкции упаковки: плитки под фильтром, тёмная подложка. */
 $filterTilesTitle = ['Конструкции', 'упаковки'];

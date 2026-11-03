@@ -1,0 +1,131 @@
+/* Факты о производстве. */
+.kf-facts{
+	padding:var(--kf-s-48) var(--kf-page-inline);
+	color:var(--kf-color-text);
+}
+@media (min-width:641px){ .kf-facts{ padding:var(--kf-s-64) var(--kf-page-inline); } }
+@media (min-width:1081px){ .kf-facts{ padding:var(--kf-s-88) var(--kf-page-inline); } }
+
+.kf-facts__title{
+	font:var(--kf-text-title);
+	letter-spacing:var(--kf-text-title-tracking);
+	margin:0 0 var(--kf-s-16);
+}
+.kf-facts__title span{
+	font-family:var(--kf-font-display);
+	color:var(--kf-color-accent);
+}
+
+/* Плашка. Фон у неё не краска, а иллюстрация во всю ширину
+   (ill-02.svg) — до картиночной итерации здесь лежит цвет-заглушка:
+   без него карточки того же цвета, что и страница, и отличались бы
+   от фона только рамкой. На утверждённом сайте иллюстрация ещё и
+   едет параллаксом (плашка 300% высоты, background-attachment:fixed),
+   это переносится вместе с картинкой. */
+.kf-facts__plate{
+	position:relative;
+	overflow:hidden;
+	display:flex;
+	flex-direction:column;
+	gap:var(--kf-s-8);
+	padding:var(--kf-s-64) var(--kf-s-16);
+	border-radius:var(--kf-radius);
+	background:var(--kf-color-placeholder);
+}
+@media (min-width:641px){
+	.kf-facts__plate{ gap:var(--kf-s-16); padding:var(--kf-s-56); }
+}
+
+/* Ряд. На узком экране карточки идут столбиком по центру, на широком
+   становятся сеткой: ряд из трёх занимает все колонки, одинокая
+   карточка встаёт в среднюю, ряд из двух сужается до 76 юнитов —
+   так середина пирамиды держится без ручных отступов. */
+.kf-facts__row{
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	gap:var(--kf-s-8);
+}
+@media (min-width:641px){
+	.kf-facts__row{
+		display:grid;
+		grid-template-columns:repeat(3, 1fr);
+		gap:var(--kf-s-16);
+		margin-inline:auto;
+		width:100%;
+	}
+	.kf-facts__row[data-cards="1"] .kf-facts__card{ grid-column:2; }
+	.kf-facts__row[data-cards="2"]{
+		grid-template-columns:repeat(2, 1fr);
+		max-width:calc(var(--kf-unit) * 76);
+	}
+}
+/* Выше 1080 ряд перестаёт растягиваться: в макете пирамида стоит
+   столбиком постоянной ширины, а не во всю плашку. */
+@media (min-width:1081px){
+	.kf-facts__row{ max-width:calc(var(--kf-unit) * 120); }
+}
+/* Порядок на узком экране другой: ряд из трёх уходит вниз, а внутри
+   него первым идёт «70%». Так на утверждённом сайте — цифра про
+   повторные заказы работает сильнее остальных. */
+@media (max-width:640px){
+	.kf-facts__row[data-cards="3"]{ order:1; }
+	.kf-facts__row[data-cards="3"] .kf-facts__card:nth-child(2){ order:-1; }
+}
+
+/* Карточка. На узком экране это строка — цифра слева, текст справа, —
+   и ширина по содержимому: ряд центрирован, и карточка во всю ширину
+   рассыпала бы столбик. На широком — колонка во всю ячейку сетки. */
+.kf-facts__card{
+	display:flex;
+	align-items:center;
+	gap:var(--kf-s-8);
+	width:min-content;
+	padding:var(--kf-s-12) var(--kf-s-16);
+	border:1px solid var(--kf-color-border);
+	border-radius:var(--kf-radius-s);
+	background:var(--kf-color-page);
+	text-align:center;
+}
+@media (min-width:641px){
+	.kf-facts__card{
+		flex-direction:column;
+		gap:0;
+		width:100%;
+		padding:var(--kf-s-16);
+	}
+}
+
+.kf-facts__figure{
+	font:var(--kf-text-figure);
+	color:var(--kf-color-accent-2);
+}
+
+/* Место под иллюстрацию. Высота равна строке цифры, поэтому карточка
+   с рисунком стоит в ряду вровень с цифровыми. */
+.kf-facts__pic{
+	overflow:hidden;
+	flex:0 0 auto;
+	width:var(--kf-s-88);
+	height:var(--kf-s-40);
+}
+@media (min-width:641px){
+	.kf-facts__pic{
+		width:100%;
+		max-width:calc(var(--kf-unit) * 18.5);
+		height:var(--kf-s-80);
+	}
+}
+.kf-facts__pic img{
+	display:block;
+	width:100%; height:100%;
+	object-fit:contain;
+}
+
+.kf-facts__text{
+	font:var(--kf-text-fact);
+	margin:0;
+}
+@media (max-width:640px){
+	.kf-facts__text{ text-align:left; }
+}

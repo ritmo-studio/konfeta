@@ -108,6 +108,10 @@
   --kf-text-tile-tracking:-.02em;
   --kf-text-more:500 var(--kf-s-16)/var(--kf-s-24) var(--kf-font-text);
   --kf-text-more-tracking:-.01em;
+  /* Крупная цифра факта: акцидентным шрифтом, интерлиньяж меньше
+     кегля — цифра стоит плотным блоком, а не строкой текста. */
+  --kf-text-figure:400 var(--kf-s-88)/var(--kf-s-80) var(--kf-font-display);
+  --kf-text-fact:400 var(--kf-s-16)/var(--kf-s-24) var(--kf-font-text);
 
   /* Ширина пояснения под заголовком: 74.25 юнита. Длиннее строка
      читается хуже, и в макете текст набран ровно в две строки. */
@@ -129,6 +133,8 @@
     --kf-text-lead:400 var(--kf-s-16)/var(--kf-s-24) var(--kf-font-text);
     --kf-text-tile:400 var(--kf-s-14)/var(--kf-s-16) var(--kf-font-text);
     --kf-text-more:500 var(--kf-s-14)/var(--kf-s-16) var(--kf-font-text);
+    --kf-text-figure:400 var(--kf-s-48)/var(--kf-s-40) var(--kf-font-display);
+    --kf-text-fact:400 var(--kf-s-14)/var(--kf-s-16) var(--kf-font-text);
   }
 }
 @media (min-width:641px){ :root{ --kf-page-padding:var(--kf-s-24); } }
