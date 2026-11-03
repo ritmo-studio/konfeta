@@ -9,7 +9,7 @@ $pageTitle       = 'Изготовление картонной упаковки
 $metaDescription = 'Производство картонной упаковки в СПб от 1 шт. Собственное производство полного цикла с 1996 года: коробки жёсткие, МГК, пакеты, папки, ложементы. Бесплатный образец и расчёт — за 1 день. Доставка по СПб и РФ.';
 $pageUrl         = 'https://konfeta.group/';
 $bodyClass       = 'page-home';
-$smoothScroll    = false;   // на «Конфете» её не было, и 20 КБ ради неё не нужны
+$smoothScroll    = true;    // плавная прокрутка движка; выключается этим же флагом
 
 /* JSON-LD на старом сайте собирал WordPress: BreadcrumbList, CollectionPage,
    Organization, WebSite. Переносится отдельной итерацией — в content/schema.php. */

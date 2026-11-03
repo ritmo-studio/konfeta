@@ -13,10 +13,11 @@
 .kf-filter__compact{ display:flex; align-items:center; gap:var(--kf-s-8); }
 
 @media (min-width:641px){
-	/* Группы разнесены по всей ширине: в макете они занимают строку
-	   целиком, а не жмутся к левому краю. Блок, которому нужен обычный
-	   ряд, переопределяет justify-content у себя. */
-	.kf-filter__tabs{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:var(--kf-s-32); }
+	/* Обычный ряд с переносом. Враспор (space-between) не годится:
+	   он совпадает с макетом, только пока группы влезают в одну
+	   строку, а на перенос растягивает остаток строки на всю ширину
+	   и две группы повисают по краям пустоты. */
+	.kf-filter__tabs{ display:flex; flex-wrap:wrap; gap:var(--kf-s-32); }
 	.kf-filter__compact{ display:none; }
 }
 

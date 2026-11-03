@@ -55,10 +55,6 @@
 }
 
 .kf-filter-photos__filter{ margin-bottom:var(--kf-s-16); }
-/* Группы здесь идут обычным рядом, а не враспор: их пять и они
-   короткие — в макете они стоят слева с отбивкой 32. */
-.kf-filter-photos .kf-filter__tabs{ justify-content:flex-start; }
-
 /* Раскладка кадров — в atoms/frames: она общая с первым экраном.
    Здесь только отбивка счётчика от дорожки. */
 .kf-filter-photos .kf-counter{ margin-top:var(--kf-s-32); }
