@@ -1,116 +1,182 @@
-/* site-header v1.1 · Figma 2111:337 · атом button (иконка).
-   Брейкпоинт 1280, а не привычные 768: в Figma нет промежуточного планшетного варианта —
-   только Desktop 1440 и Mobile 375, а меню отдаёт WordPress (wp_nav_menu), длина пунктов
-   заранее не известна. При образце из пяти пунктов и телефоне в пилюле горизонтальное
-   меню с запасом помещается только с 1280 (при 1152 «Дополнительные услуги» уже переносится
-   на вторую строку и ломает высоту пилюли). Мобильная раскладка на 768–1279 работает
-   без переделок, поэтому планшет получает её, а не тесный десктоп. min-width:0 на меню
-   и nowrap на пункте — страховка на случай, если реальный пункт WordPress всё равно
-   окажется длиннее образца: тогда он подожмётся или на пиксель вылезет за пилюлю,
-   но не перенесётся на вторую строку и не выгонит телефон за край экрана.
-   Секция прозрачная: своего фона нет, фон несёт только пилюля .sds-header__bar. */
-/* Фиксируется наверху на любой ширине и остаётся на экране при скролле —
-   якоря меню должны попадать под открытую шапку, а не под её прежнее место. */
-.sds.sds-header{position:fixed;top:0;left:0;right:0;z-index:30;padding-top:var(--sds-space-gap-l);padding-inline:var(--sds-page-inline)}
-@media (max-width:1279.98px){.sds.sds-header{padding-top:var(--sds-space-page-padding)}}
+/* Шапка. Значения с утверждённой вёрстки: поля 8 по вертикали на узком
+   экране и 16 на широком, логотип 22,5 юнита шириной при пропорции
+   177 / 48, отбивка в ряду 24, пункт меню 16/24, плашка города 16 со
+   своим шрифтовым интерлиньяжем и значком 54, бургер 24 на 24 с
+   линиями по 2.
 
-.sds .sds-header__bar{position:relative;display:flex;align-items:center;justify-content:space-between;gap:var(--sds-space-gap-m);height:64px;padding-inline:var(--sds-space-gap-xl);border-radius:var(--sds-radius-pill);background:var(--sds-color-page);box-shadow:var(--sds-shadow-bar)}
-@media (max-width:1279.98px){.sds .sds-header__bar{height:56px;padding-inline:var(--sds-space-gap-m)}}
+   Шапка липкая и не прозрачная — у неё фон страницы, как на сайте. */
+.kf-site-header{
+	position:sticky;
+	z-index:60;
+	top:0;
+	padding:var(--kf-s-8) var(--kf-page-inline);
+	color:var(--kf-color-text);
+	background:var(--kf-color-page);
+}
+@media (min-width:641px){ .kf-site-header{ padding:var(--kf-s-16) var(--kf-page-inline); } }
 
-.sds .sds-header__logo{display:block;flex:none;border-radius:var(--sds-radius-button);overflow:hidden}
-.sds .sds-header__logo-img{display:block;height:40px;width:auto}
-@media (max-width:1279.98px){.sds .sds-header__logo-img{height:28px}}
+/* На узком экране в ряду только логотип и бургер, они по краям. */
+.kf-site-header__bar{
+	display:flex;
+	align-items:center;
+	justify-content:space-between;
+	gap:var(--kf-s-24);
+}
+@media (min-width:641px){ .kf-site-header__bar{ justify-content:normal; } }
 
-/* Телефон идёт дважды в разметке (в пилюле на десктопе, в подвале мобильной панели):
-   это два разных места в двух непохожих раскладках Figma, а не одна и та же строка,
-   переносимая CSS. Видимый экземпляр на каждой ширине — один. */
-.sds .sds-header__phone{margin:0;font:var(--sds-text-phone);color:var(--sds-color-text);text-decoration:none;text-transform:uppercase;white-space:nowrap}
-.sds .sds-header__phone--panel{display:block}
-
-/* Навигация и подменю: только десктоп, от 1280. На мобильном (и планшете) меню живёт в полноэкранной панели. */
-.sds .sds-header__nav{display:none}
-.sds .sds-header__phone--bar{display:none}
-.sds .sds-header__toggle{display:block}
-
-/* Шеврон — тот же развёрнутый вниз треугольник, что в атоме accordion: разворачивается
-   на 180° у открытого <details>, язык жестов один на всю библиотеку. Общий для десктопного
-   подменю и мобильного аккордеона, поэтому вне брейкпоинта — оба используют этот класс. */
-.sds .sds-header__chevron{--sds-header-chevron:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 9.5 L12 15.5 L18 9.5' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");flex:none;width:16px;height:16px;background:currentColor;-webkit-mask:var(--sds-header-chevron) center / 16px 16px no-repeat;mask:var(--sds-header-chevron) center / 16px 16px no-repeat}
-@media (prefers-reduced-motion:no-preference){.sds .sds-header__chevron{transition:transform var(--sds-motion-duration-fast) var(--sds-motion-easing)}}
-
-@media (min-width:1280px){
-  .sds .sds-header__nav{display:block;min-width:0}
-  .sds .sds-header__phone--bar{display:block;flex:none}
-  .sds .sds-header__toggle{display:none}
-
-  .sds .sds-header__menu{display:flex;align-items:center;gap:var(--sds-space-gap-l);margin:0;padding:0;list-style:none;min-width:0}
-  .sds .sds-header__link{display:inline-flex;align-items:center;gap:var(--sds-space-gap-s);border:0;background:none;margin:0;padding:0;font:var(--sds-text-menu-item);color:var(--sds-color-text);text-transform:uppercase;text-decoration:none;white-space:nowrap;cursor:pointer}
-  .sds .sds-header__link[aria-current="page"]{color:var(--sds-color-accent);text-decoration:underline}
-  .sds summary.sds-header__link::-webkit-details-marker{display:none}
-  .sds summary.sds-header__link{list-style:none}
-  @media (hover:hover){.sds .sds-header__link:hover{color:var(--sds-color-accent)}}
-  .sds .sds-header__link:focus-visible{outline:2px solid var(--sds-color-accent);outline-offset:4px;border-radius:var(--sds-radius-control)}
-
-  .sds .sds-header__drop[open] > summary .sds-header__chevron{transform:rotate(180deg)}
-
-  .sds .sds-header__drop{position:relative}
-  .sds .sds-header__dropdown{position:absolute;top:calc(100% + var(--sds-space-gap-s));left:0;z-index:1;margin:0;padding:var(--sds-space-gap-s);width:296px;display:flex;flex-direction:column;border-radius:var(--sds-radius-button);background:var(--sds-color-page);box-shadow:var(--sds-shadow-bar);list-style:none}
-  /* Второй уровень — та же панель, выезжает вправо от пункта с шевроном, а не вниз. */
-  .sds .sds-header__dropdown--sub{top:0;left:calc(100% + var(--sds-space-gap-s))}
-
-  .sds .sds-header__drow{display:flex;align-items:center;justify-content:space-between;gap:var(--sds-space-gap-s);width:100%;border:0;background:none;margin:0;padding:var(--sds-space-gap-s) var(--sds-space-gap-m);border-radius:var(--sds-radius-button);font:var(--sds-text-menu-item);color:var(--sds-color-text);text-decoration:none;cursor:pointer;text-align:left}
-  .sds summary.sds-header__drow::-webkit-details-marker{display:none}
-  .sds summary.sds-header__drow{list-style:none}
-  @media (hover:hover){.sds .sds-header__drow:hover{background:var(--sds-color-card)}}
-  .sds .sds-header__drop[open] > summary.sds-header__drow{background:var(--sds-color-card)}
-  .sds .sds-header__drow:focus-visible{outline:2px solid var(--sds-color-accent);outline-offset:-2px}
+.kf-site-header__logo{ flex:none; color:inherit; }
+.kf-site-header__logo img{
+	display:block;
+	width:calc(var(--kf-unit) * 22.5);
+	height:auto;
+	aspect-ratio:177 / 48;
+}
+/* Пока файла логотипа нет — название набором той же высоты, чтобы
+   шапка не прыгнула, когда картинка приедет. */
+.kf-site-header__logo-text{
+	font:var(--kf-text-menu-panel);
+	display:flex;
+	align-items:center;
+	height:calc(var(--kf-unit) * 6.102);
+	white-space:nowrap;
 }
 
-/* Мобильная панель: открывается нативным <details>, состояния в JS нет.
-   Пока открыта — страница позади не скроллится (:has, без JS), а её содержимое
-   выключено из фокуса атрибутом inert (site-header.js: CSS этого не умеет). */
-/* Блокировка скролла страницы под открытой панелью. Пока идёт анимация закрытия
-   (site-header.js: closePanel), атрибут open специально ещё стоит — ради плавного
-   исчезновения, а не ради блокировки: скролл к выбранному пункту должен пройти
-   именно в эти 300мс, иначе и Lenis, и сама страница (overflow:hidden) не пускают
-   его, и переход визуально не происходит. Поэтому замок держит не open, а is-shown
-   (его снимает тот же closePanel сразу, до конца анимации). Без JS is-shown
-   не появляется вовсе — тогда замком остаётся open, как раньше. */
-html:not(.rs-js) body:has(.sds .sds-header__toggle[open]){overflow:hidden}
-body:has(.sds .sds-header__panel.is-shown){overflow:hidden}
+/* Меню на узком экране живёт в панели, в ряду его нет. */
+.kf-site-header__nav{ display:none; }
+@media (min-width:641px){
+	.kf-site-header__nav{ display:flex; justify-content:center; width:100%; margin-inline:auto; }
+}
+.kf-site-header__menu{
+	display:flex;
+	align-items:center;
+	gap:var(--kf-s-24);
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+.kf-site-header__link{
+	font:var(--kf-text-menu);
+	display:flex;
+	align-items:center;
+	white-space:nowrap;
+	color:inherit;
+	text-decoration:none;
+	transition:color var(--kf-dur) var(--kf-ease);
+}
+.kf-site-header__link:hover,
+.kf-site-header__link[aria-current="page"]{ color:var(--kf-color-accent-2); }
 
-.sds .sds-header__burger{--sds-header-burger:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 7 H20 M4 12 H20 M4 17 H20' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
-  --sds-header-close:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 6 L18 18 M18 6 L6 18' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
-  display:flex;flex:none;width:24px;height:24px;background:currentColor;color:var(--sds-color-text);-webkit-mask:var(--sds-header-burger) center / 24px 24px no-repeat;mask:var(--sds-header-burger) center / 24px 24px no-repeat;list-style:none;cursor:pointer}
-.sds .sds-header__burger::-webkit-details-marker{display:none}
-.sds .sds-header__burger:focus-visible{outline:2px solid var(--sds-color-accent);outline-offset:4px;border-radius:var(--sds-radius-control)}
-.sds .sds-header__toggle[open] .sds-header__burger{-webkit-mask-image:var(--sds-header-close);mask-image:var(--sds-header-close);position:fixed;top:calc(var(--sds-space-page-padding) + 16px);right:var(--sds-space-page-padding);z-index:50}
+.kf-site-header__info{ display:none; }
+@media (min-width:641px){
+	.kf-site-header__info{
+		font:var(--kf-text-info);
+		display:flex;
+		align-items:center;
+		gap:var(--kf-s-4);
+		margin:0;
+		text-align:right;
+		white-space:nowrap;
+	}
+	.kf-site-header__info img{ display:block; width:var(--kf-s-54); height:auto; }
+}
 
-.sds .sds-header__panel{position:fixed;inset:0;display:flex;flex-direction:column;gap:var(--sds-space-gap-l);overflow-y:auto;padding:var(--sds-space-page-padding);background:var(--sds-color-page)}
-/* Открытие/закрытие панели плавное только когда есть JS (rs-js на <html> —
-   в библиотеке это sds-js, класс ставит движок сайта): он же
-   придерживает open/закрытие на время перехода (site-header.js, closePanel).
-   Без JS <details> переключается мгновенно — поведение не хуже прежнего. */
+@media (min-width:641px){ .kf-site-header__toggle{ display:none; } }
+
+/* Бургер: две линии, третью даёт тень верхней — тот же приём, что на
+   сайте, и он же позволяет собрать крест без лишних узлов. Задержки
+   разведены, чтобы тень успевала погаснуть до поворота. */
+.kf-site-header__burger{
+	position:relative;
+	display:flex;
+	flex:none;
+	width:var(--kf-s-24);
+	aspect-ratio:1 / 1;
+	cursor:pointer;
+	list-style:none;
+}
+.kf-site-header__burger::-webkit-details-marker{ display:none; }
+.kf-site-header__burger::before,
+.kf-site-header__burger::after{
+	position:absolute;
+	left:0;
+	display:block;
+	width:100%;
+	height:2px;
+	content:'';
+	border-radius:10px;
+	background:var(--kf-color-icon);
+}
+.kf-site-header__burger::before{
+	top:calc((var(--kf-s-8) - 2px) / 2);
+	box-shadow:0 var(--kf-s-8) 0 var(--kf-color-icon);
+	transition:box-shadow var(--kf-dur-mid) .15s, top var(--kf-dur-mid) .15s, transform var(--kf-dur-mid);
+}
+.kf-site-header__burger::after{
+	bottom:calc((var(--kf-s-8) - 2px) / 2);
+	transition:bottom var(--kf-dur-mid) .15s, transform var(--kf-dur-mid);
+}
+.kf-site-header__toggle[open] .kf-site-header__burger::before{
+	top:calc((var(--kf-s-24) - 2px) / 2);
+	transform:rotate(45deg);
+	box-shadow:0 var(--kf-s-8) 0 transparent;
+	transition:box-shadow .15s, top var(--kf-dur-mid), transform var(--kf-dur-mid) .15s;
+}
+.kf-site-header__toggle[open] .kf-site-header__burger::after{
+	bottom:calc((var(--kf-s-24) - 2px) / 2);
+	transform:rotate(-45deg);
+	transition:bottom var(--kf-dur-mid), transform var(--kf-dur-mid) .15s;
+}
+.kf-site-header__burger:focus-visible{ outline:2px solid var(--kf-color-accent-2); outline-offset:4px; }
+
+/* Панель начинается под шапкой и занимает остаток экрана: шапка с
+   бургером остаётся на месте, как на сайте. */
+.kf-site-header__panel{
+	position:fixed;
+	z-index:50;
+	top:var(--kf-header-space);
+	right:0;
+	bottom:0;
+	left:0;
+	display:flex;
+	flex-direction:column;
+	justify-content:space-between;
+	gap:var(--kf-s-32);
+	overflow-y:auto;
+	overscroll-behavior:contain;
+	padding:var(--kf-s-16) var(--kf-page-inline);
+	color:var(--kf-color-text);
+	background:var(--kf-color-page);
+}
+/* Плавность — только при JS: он придерживает открытое состояние на
+   время перехода (site-header.js). Без JS details переключается
+   мгновенно, и это не хуже прежнего. */
 @media (prefers-reduced-motion:no-preference){
-  .rs-js .sds .sds-header__panel{opacity:0;transform:translateY(-12px);transition:opacity var(--sds-motion-duration-fast) var(--sds-motion-easing),transform var(--sds-motion-duration-fast) var(--sds-motion-easing)}
-  .rs-js .sds .sds-header__panel.is-shown{opacity:1;transform:none}
+	.rs-js .kf-site-header__panel{
+		opacity:0;
+		transition:opacity var(--kf-dur-mid) var(--kf-ease-inout);
+	}
+	.rs-js .kf-site-header__panel.is-shown{ opacity:1; }
 }
 
-.sds .sds-header__mobile-menu{display:flex;flex-direction:column;gap:var(--sds-space-gap-s);margin:0;padding:0;list-style:none}
-.sds .sds-header__mrow{display:flex;align-items:center;justify-content:space-between;gap:var(--sds-space-gap-s);width:100%;min-height:56px;border:0;background:none;margin:0;padding:var(--sds-space-gap-m);border-radius:var(--sds-radius-button);font:var(--sds-text-menu-item);color:var(--sds-color-text);text-decoration:none;cursor:pointer;text-align:left}
-.sds .sds-header__mrow[aria-current="page"]{color:var(--sds-color-accent)}
-.sds summary.sds-header__mrow::-webkit-details-marker{display:none}
-.sds summary.sds-header__mrow{list-style:none}
-.sds .sds-header__macc[open] > summary.sds-header__mrow{background:var(--sds-color-card)}
-.sds .sds-header__mrow:focus-visible{outline:2px solid var(--sds-color-accent);outline-offset:-2px}
-.sds .sds-header__chevron--m{transform:rotate(0)}
-@media (prefers-reduced-motion:no-preference){.sds .sds-header__chevron--m{transition:transform var(--sds-motion-duration-fast) var(--sds-motion-easing)}}
-.sds .sds-header__macc[open] > summary .sds-header__chevron--m{transform:rotate(180deg)}
-.sds .sds-header__msub{margin:var(--sds-space-gap-s) 0 0;padding-left:var(--sds-space-gap-m);display:flex;flex-direction:column;gap:var(--sds-space-gap-s);list-style:none}
+.kf-site-header__panel-menu{
+	display:flex;
+	flex-direction:column;
+	gap:var(--kf-s-16);
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+.kf-site-header__panel-link{
+	font:var(--kf-text-menu-panel);
+	display:block;
+	color:inherit;
+	text-decoration:none;
+}
+.kf-site-header__panel-link[aria-current="page"]{ color:var(--kf-color-accent-2); }
+.kf-site-header__panel-foot{ margin-top:auto; }
 
-.sds .sds-header__foot{margin-top:auto;display:flex;flex-direction:column;gap:var(--sds-space-gap-m)}
-
-/* Отличие снимка: пока файла логотипа нет, в ссылке стоит название
-   набором. Высота та же, что у картинки, — пилюля не прыгает. */
-.sds .sds-header__logo-text{display:flex;align-items:center;height:40px;font:var(--sds-text-phone);color:var(--sds-color-text);text-transform:uppercase;white-space:nowrap}
-@media (max-width:1279.98px){.sds .sds-header__logo-text{height:28px}}
+/* Замок прокрутки. С JS его держит is-shown — он снимается раньше
+   атрибута open, и переход к якорю успевает пройти, пока панель
+   гаснет. Без JS замком остаётся сам open. */
+html:not(.rs-js) body:has(.kf-site-header__toggle[open]){ overflow:hidden; }
+body:has(.kf-site-header__panel.is-shown){ overflow:hidden; }

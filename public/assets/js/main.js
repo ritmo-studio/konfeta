@@ -411,92 +411,47 @@ shot.classList.remove('is-visible');
 });
 });
 })();
-(function () {
-if (document.readyState ==='loading') document.addEventListener('DOMContentLoaded', start);
-else start();
-function start() {
-var toggles = document.querySelectorAll('.sds-header__toggle'), i;
-for (i = 0; i < toggles.length; i++) bind(toggles[i]);
-startSpy();
-}
-function bind(toggle) {
-var header = toggle.closest('.sds-header') || toggle;
-var panel = toggle.querySelector('.sds-header__panel');
-var summary = toggle.querySelector('summary.sds-header__burger');
-var reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-function setInert(on) {
-var kids = document.body.children, i, el;
-for (i = 0; i < kids.length; i++) {
-el = kids[i];
-if (el === header || el.contains(header)) continue;
-if (el.tagName ==='SCRIPT'|| el.tagName ==='STYLE') continue;
+(() => {
+const toggle = document.querySelector('.kf-site-header__toggle');
+if (!toggle) return;
+const header = toggle.closest('.kf-site-header') || toggle;
+const panel = toggle.querySelector('.kf-site-header__panel');
+const burger = toggle.querySelector('summary.kf-site-header__burger');
+const still = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+const setInert = (on) => {
+Array.from(document.body.children).forEach((el) => {
+if (el === header || el.contains(header)) return;
+if (el.tagName ==='SCRIPT'|| el.tagName ==='STYLE') return;
 if (on) el.setAttribute('inert','');
 else el.removeAttribute('inert');
-}
-}
-toggle.addEventListener('toggle', function () {
-setInert(toggle.open);
-if (toggle.open) requestAnimationFrame(function () { requestAnimationFrame(function () { panel.classList.add('is-shown'); }); });
-else panel.classList.remove('is-shown');
 });
-summary.addEventListener('click', function (e) {
-if (toggle.open) { e.preventDefault(); closePanel(); }
-});
-panel.addEventListener('click', function (e) {
-if (e.target.closest('a')) closePanel();
-});
-function closePanel() {
+};
+const closePanel = () => {
 if (!toggle.open) return;
 panel.classList.remove('is-shown');
-if (reduced) { toggle.open = false; setInert(false); return; }
-var done = false;
-function finish() {
+if (still) { toggle.open = false; setInert(false); return; }
+let done = false;
+const finish = () => {
 if (done) return;
 done = true;
 panel.removeEventListener('transitionend', finish);
 toggle.open = false;
 setInert(false);
-}
+};
 panel.addEventListener('transitionend', finish);
 setTimeout(finish, 300);
-}
-}
-function startSpy() {
-var links = document.querySelectorAll('.sds-header__link, .sds-header__mrow');
-var byId = {}, order = [], i, href, id, el;
-for (i = 0; i < links.length; i++) {
-href = links[i].getAttribute('href') ||'';
-if (href.charAt(0) !=='#'|| href.length < 2) continue;
-id = href.slice(1);
-el = document.getElementById(id);
-if (!el) continue;
-if (!byId[id]) { byId[id] = { el: el, links: [] }; order.push(id); }
-byId[id].links.push(links[i]);
-links[i].removeAttribute('aria-current');
-}
-if (!order.length || !('IntersectionObserver'in window)) return;
-order.sort(function (a, b) { return byId[a].el.compareDocumentPosition(byId[b].el) & 4 ? -1 : 1; });
-var active = {};
-function setActive(id) {
-for (i = 0; i < order.length; i++) {
-var on = order[i] === id, l = byId[order[i]].links, j;
-for (j = 0; j < l.length; j++) if (on) l[j].setAttribute('aria-current','page'); else l[j].removeAttribute('aria-current');
-}
-}
-var headerBar = document.querySelector('.sds-header__bar');
-var offset = (headerBar ? headerBar.getBoundingClientRect().height : 0) + 24;
-var io = new IntersectionObserver(function (entries) {
-var found = null, j;
-for (j = 0; j < entries.length; j++) active[entries[j].target.id] = entries[j].isIntersecting;
-for (j = 0; j < order.length; j++) if (active[order[j]]) { found = order[j]; break; }
-setActive(found);
-}, { rootMargin:'-'+ Math.round(offset) +'px 0px -60% 0px', threshold: 0 });
-for (i = 0; i < order.length; i++) io.observe(byId[order[i]].el);
-var last = order[order.length - 1];
-window.addEventListener('scroll', function () {
-if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) setActive(last);
-}, { passive: true });
-}
+};
+toggle.addEventListener('toggle', () => {
+setInert(toggle.open);
+if (toggle.open) requestAnimationFrame(() => requestAnimationFrame(() => panel.classList.add('is-shown')));
+else panel.classList.remove('is-shown');
+});
+burger.addEventListener('click', (e) => {
+if (toggle.open) { e.preventDefault(); closePanel(); }
+});
+panel.addEventListener('click', (e) => {
+if (e.target.closest('a')) closePanel();
+});
 })();
 (() => {
 const section = document.querySelector('.kf-steps');

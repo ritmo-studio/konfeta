@@ -1,96 +1,63 @@
 <?php
 /**
- * Шапка сайта — снимок библиотечного site-header 1.2 (Figma 2111:337).
+ * Шапка сайта: логотип, меню, плашка города, бургер с панелью.
  *
- * Блок приехал из библиотеки и носит её имя, поэтому разметка и классы
- * здесь ровно библиотечные: отличие от библиотеки должно быть видно
- * обычным diff, а не прятаться в переименованиях. Значения блок берёт
- * из токенов сайта (tokens.css, набор --sds-*).
+ * Блок собственный, с сайтовым префиксом. Начинал он снимком
+ * библиотечного site-header, но вид решили привести к утверждённому
+ * сайту — а подогнанный блок под библиотечным именем делает diff
+ * лживым, и это единственное, на чём держится модель снимка. Поэтому
+ * имя сайтовое, а библиотечная шапка осталась в библиотеке.
  *
- * Отличия снимка от библиотеки — три, все записаны в README:
- * класс JS-признака (`rs-js` вместо `sds-js`: библиотечный base.js в
- * сайт не едет, класс ставит движок под своим именем), кнопка в панели
- * (atoms/button сайта вместо библиотечной) и перевод шаблонов в PHP.
+ * Из снимка сюда переехали три приёма, они себя оправдали:
+ * раскрытие нативным details/summary (работает без JS и не просит id,
+ * которые блокам запрещены), замок прокрутки на :has, и inert на
+ * соседях шапки, пока панель открыта.
  *
- * Шаблонов в библиотеке три (пункт меню, пункт подменю, пункт
- * мобильной панели), и два из них рекурсивны. Здесь это две
- * локальные функции: заводить три php-файла ради трёх строк разметки
- * дороже, чем держать их рядом.
+ * Шапка sticky и стоит в потоке, поэтому место под себя у первого
+ * блока не просит — только отбивку (kf-hero, верхнее поле).
  *
- * Шапка одна на страницу (uniquePerPage) и position:fixed — первый
- * блок страницы обязан оставить под неё место сверху
- * (--kf-header-space).
+ * Шапка одна на страницу.
  */
 $menu = $menu ?? include dirname($_SERVER['DOCUMENT_ROOT']) . '/content/menu.php';
 $te = static fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 
 $logo = $menu['logo'] ?? [];
-$phone = $menu['phone'] ?? [];
 $items = $menu['items'] ?? [];
-
-/* Пункт подменю: та же панель вторым уровнем, выезжает вправо. */
-$drop = function (array $item) use (&$drop, $te) {
-	$kids = $item['children'] ?? [];
-	echo '<li class="sds-header__drow-wrap">';
-	if ($kids) {
-		echo '<details class="sds-header__drop"><summary class="sds-header__drow">' . $te($item['label'])
-			. '<span class="sds-header__chevron" aria-hidden="true"></span></summary>'
-			. '<ul class="sds-header__dropdown sds-header__dropdown--sub">';
-		foreach ($kids as $kid) $drop($kid);
-		echo '</ul></details>';
-	} else {
-		echo '<a class="sds-header__drow" href="' . $te($item['href'] ?? '') . '">' . $te($item['label']) . '</a>';
-	}
-	echo '</li>';
-};
-
-/* Пункт мобильной панели: подпункты раскрываются аккордеоном. */
-$mrow = function (array $item) use (&$mrow, $te) {
-	$kids = $item['children'] ?? [];
-	echo '<li class="sds-header__mrow-wrap">';
-	if ($kids) {
-		echo '<details class="sds-header__macc"><summary class="sds-header__mrow">' . $te($item['label'])
-			. '<span class="sds-header__chevron sds-header__chevron--m" aria-hidden="true"></span></summary>'
-			. '<ul class="sds-header__msub">';
-		foreach ($kids as $kid) $mrow($kid);
-		echo '</ul></details>';
-	} else {
-		echo '<a class="sds-header__mrow" href="' . $te($item['href'] ?? '') . '">' . $te($item['label']) . '</a>';
-	}
-	echo '</li>';
-};
+$info = $menu['info'] ?? [];
 ?>
-<header class="sds sds-header">
-	<div class="sds-header__bar">
-		<a class="sds-header__logo" href="<?= $te($logo['href'] ?? '/') ?>"><?php
-			if (!empty($logo['src'])): ?><img class="sds-header__logo-img" src="<?= $te($logo['src']) ?>" alt="<?= $te($logo['label'] ?? '') ?>" width="175" height="40" fetchpriority="high" decoding="async"><?php
-			else: ?><span class="sds-header__logo-text"><?= $te($logo['label'] ?? '') ?></span><?php
+<header class="kf-site-header">
+	<div class="kf-site-header__bar">
+		<a class="kf-site-header__logo" href="<?= $te($logo['href'] ?? '/') ?>"><?php
+			if (!empty($logo['src'])): ?><img src="<?= $te($logo['src']) ?>" alt="<?= $te($logo['label'] ?? '') ?>" width="177" height="48" fetchpriority="high" decoding="async"><?php
+			else: ?><span class="kf-site-header__logo-text"><?= $te($logo['label'] ?? '') ?></span><?php
 			endif; ?></a>
 
-		<nav class="sds-header__nav" aria-label="Основное меню">
-			<ul class="sds-header__menu"><?php foreach ($items as $item):
-				$kids = $item['children'] ?? [];
-				echo '<li class="sds-header__item">';
-				if ($kids) {
-					echo '<details class="sds-header__drop" name="sh-nav"><summary class="sds-header__link">' . $te($item['label'])
-						. '<span class="sds-header__chevron" aria-hidden="true"></span></summary><ul class="sds-header__dropdown">';
-					foreach ($kids as $kid) $drop($kid);
-					echo '</ul></details>';
-				} else {
-					echo '<a class="sds-header__link" href="' . $te($item['href'] ?? '') . '">' . $te($item['label']) . '</a>';
-				}
-				echo '</li>';
-			endforeach; ?></ul>
+		<nav class="kf-site-header__nav" aria-label="Основное меню">
+			<ul class="kf-site-header__menu">
+				<?php foreach ($items as $item): ?>
+				<li><a class="kf-site-header__link" href="<?= $te($item['href']) ?>"><?= $te($item['label']) ?></a></li>
+				<?php endforeach; ?>
+			</ul>
 		</nav>
 
-		<a class="sds-header__phone sds-header__phone--bar" href="tel:<?= $te($phone['href'] ?? '') ?>"><?= $te($phone['label'] ?? '') ?></a>
+		<?php if (!empty($info['lines'])): ?>
+		<p class="kf-site-header__info">
+			<span><?= implode('<br>', array_map($te, $info['lines'])) ?></span>
+			<?php if (!empty($info['icon'])): ?>
+			<img src="<?= $te($info['icon']) ?>" alt="" width="54" height="54" loading="lazy">
+			<?php endif; ?>
+		</p>
+		<?php endif; ?>
 
-		<details class="sds-header__toggle">
-			<summary class="sds-header__burger" aria-label="Меню"></summary>
-			<div class="sds-header__panel">
-				<ul class="sds-header__mobile-menu"><?php foreach ($items as $item) $mrow($item); ?></ul>
-				<div class="sds-header__foot">
-					<a class="sds-header__phone sds-header__phone--panel" href="tel:<?= $te($phone['href'] ?? '') ?>"><?= $te($phone['label'] ?? '') ?></a>
+		<details class="kf-site-header__toggle">
+			<summary class="kf-site-header__burger" aria-label="Меню"></summary>
+			<div class="kf-site-header__panel">
+				<ul class="kf-site-header__panel-menu">
+					<?php foreach ($items as $item): ?>
+					<li><a class="kf-site-header__panel-link" href="<?= $te($item['href']) ?>"><?= $te($item['label']) ?></a></li>
+					<?php endforeach; ?>
+				</ul>
+				<div class="kf-site-header__panel-foot">
 					<?php $buttonLabel = $menu['cta'] ?? ''; $buttonWide = true;
 					include dirname($_SERVER['DOCUMENT_ROOT']) . '/atoms/button/button.php';
 					$buttonLabel = ''; $buttonWide = false; ?>

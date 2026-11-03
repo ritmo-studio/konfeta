@@ -1,12 +1,13 @@
 /* Первый экран. */
-/* Первый блок страницы оставляет место под шапку: она fixed и над
-   потоком, своей высоты в поток не отдаёт. */
+/* Верхнее поле — отбивка от шапки: на утверждённом сайте это 24 на
+   узком экране и 72 на широком. Шапка sticky и стоит в потоке, место
+   под неё освобождать не нужно. */
 .kf-hero{
-	padding:calc(var(--kf-s-48) + var(--kf-header-space)) var(--kf-page-inline) var(--kf-s-48);
+	padding:var(--kf-s-24) var(--kf-page-inline) var(--kf-s-48);
 	color:var(--kf-color-text);
 }
-@media (min-width:641px){ .kf-hero{ padding:calc(var(--kf-s-64) + var(--kf-header-space)) var(--kf-page-inline) var(--kf-s-64); } }
-@media (min-width:1081px){ .kf-hero{ padding:calc(var(--kf-s-88) + var(--kf-header-space)) var(--kf-page-inline) var(--kf-s-88); } }
+@media (min-width:641px){ .kf-hero{ padding:var(--kf-s-72) var(--kf-page-inline) var(--kf-s-64); } }
+@media (min-width:1081px){ .kf-hero{ padding:var(--kf-s-72) var(--kf-page-inline) var(--kf-s-88); } }
 
 .kf-hero__head{
 	display:flex;
