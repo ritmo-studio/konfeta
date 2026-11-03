@@ -110,6 +110,8 @@
   --kf-text-tab:500 var(--kf-s-24)/var(--kf-s-32) var(--kf-font-text);
   --kf-text-tab-tracking:-.03em;
   --kf-text-tile:400 var(--kf-s-24)/var(--kf-s-24) var(--kf-font-text);
+  /* Подпись-ярлык поверх кадра: строка в плотном наборе, без интерлиньяжа. */
+  --kf-text-label:400 var(--kf-s-20)/var(--kf-s-20) var(--kf-font-text);
   --kf-text-tile-tracking:-.02em;
   --kf-text-more:500 var(--kf-s-16)/var(--kf-s-24) var(--kf-font-text);
   --kf-text-more-tracking:-.01em;
@@ -141,6 +143,7 @@
     --kf-text-title:450 var(--kf-s-28)/var(--kf-s-32) var(--kf-font-text);
     --kf-text-lead:400 var(--kf-s-16)/var(--kf-s-24) var(--kf-font-text);
     --kf-text-tile:400 var(--kf-s-14)/var(--kf-s-16) var(--kf-font-text);
+    --kf-text-label:400 var(--kf-s-14)/var(--kf-s-16) var(--kf-font-text);
     --kf-text-more:500 var(--kf-s-14)/var(--kf-s-16) var(--kf-font-text);
     --kf-text-card-title:450 var(--kf-s-20)/var(--kf-s-24) var(--kf-font-text);
     --kf-text-card-text:400 var(--kf-s-14)/var(--kf-s-20) var(--kf-font-text);

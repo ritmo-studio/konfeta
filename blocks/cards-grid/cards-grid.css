@@ -1,0 +1,71 @@
+/* Упаковка по назначению. Значения сняты с утверждённой вёрстки и
+   приведены к юнитам: сетка 3 колонки с отбивкой 12 на широком экране
+   и 2 колонки с отбивкой 8 на узком, кадр 4 / 3, скругление 8, ярлык
+   поверх кадра у верхнего края с отступом 16 (на узком 8). */
+.kf-cards-grid{
+	padding:var(--kf-s-48) var(--kf-page-inline);
+	color:var(--kf-color-text);
+}
+@media (min-width:641px){ .kf-cards-grid{ padding:var(--kf-s-64) var(--kf-page-inline); } }
+@media (min-width:1081px){ .kf-cards-grid{ padding:var(--kf-s-88) var(--kf-page-inline); } }
+
+.kf-cards-grid__head{
+	display:flex;
+	align-items:flex-end;
+	justify-content:space-between;
+	gap:var(--kf-s-16);
+	margin-bottom:var(--kf-s-16);
+}
+@media (min-width:641px){ .kf-cards-grid__head{ margin-bottom:var(--kf-s-24); } }
+
+.kf-cards-grid__title{
+	font:var(--kf-text-title);
+	letter-spacing:var(--kf-text-title-tracking);
+	margin:0;
+}
+.kf-cards-grid__title span{ font-family:var(--kf-font-display); color:var(--kf-color-accent); }
+
+.kf-cards-grid__grid{
+	display:grid;
+	grid-template-columns:repeat(2,1fr);
+	gap:var(--kf-s-8);
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+@media (min-width:641px){
+	.kf-cards-grid__grid{ grid-template-columns:repeat(3,1fr); gap:var(--kf-s-12); }
+}
+
+/* Кадр и ярлык в одном узле: ярлык позиционируется по кадру, а не по
+   карточке целиком, иначе он уедет, когда придут настоящие снимки. */
+.kf-cards-grid__card{
+	position:relative;
+	overflow:hidden;
+	display:block;
+	aspect-ratio:4 / 3;
+	border-radius:var(--kf-radius-s);
+	background:var(--kf-color-placeholder);
+	color:inherit;
+	text-decoration:none;
+}
+.kf-cards-grid__card img{
+	display:block;
+	width:100%;
+	height:100%;
+	object-fit:cover;
+}
+
+/* Язычок у верхнего края: скруглён только снизу, ширина по тексту. */
+.kf-cards-grid__label{
+	font:var(--kf-text-label);
+	position:absolute;
+	top:0;
+	left:var(--kf-s-8);
+	margin:0;
+	padding:var(--kf-s-8) var(--kf-s-16);
+	color:var(--kf-color-on-dark);
+	border-radius:0 0 var(--kf-radius-s) var(--kf-radius-s);
+	background:var(--kf-color-accent);
+}
+@media (min-width:641px){ .kf-cards-grid__label{ left:var(--kf-s-16); } }

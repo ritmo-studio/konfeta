@@ -57,6 +57,9 @@ include $root . '/blocks/cards-slider/cards-slider.php';
 /* 5. Процесс создания упаковки: заголовок и один кадр видео. */
 include $root . '/blocks/video/video.php';
 
+/* 6. Упаковка по назначению: ровная сетка кадров с ярлыками. */
+include $root . '/blocks/cards-grid/cards-grid.php';
+
 /* 7. Конструкции упаковки: плитки под фильтром, тёмная подложка. */
 $filterTilesTitle = ['Конструкции', 'упаковки'];
 include $root . '/blocks/filter-tiles/filter-tiles.php';
