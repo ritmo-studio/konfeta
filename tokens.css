@@ -156,6 +156,8 @@
 }
 @media (max-width:640px){
   :root{
+    --sds-text-menu-item:500 var(--kf-s-16)/var(--kf-s-24) var(--kf-font-text);
+    --kf-header-space:calc(var(--kf-page-padding) + 56px);
     --kf-text-title:450 var(--kf-s-28)/var(--kf-s-32) var(--kf-font-text);
     --kf-text-lead:400 var(--kf-s-16)/var(--kf-s-24) var(--kf-font-text);
     --kf-text-tile:400 var(--kf-s-14)/var(--kf-s-16) var(--kf-font-text);
@@ -182,6 +184,32 @@
    ───────────────────────────────────────────────────────────── */
 :root{
   --sds-color-accent:var(--kf-color-accent);
+  /* Набор для библиотечной шапки: блок приехал снимком и ждёт токены
+     своего слоя. Геометрия у него своя (пилюля 64, логотип 40, бургер
+     24 — литералами в его css), а палитра, отступы, скругления, набор
+     и движение приходят отсюда, то есть от сайта. */
+  --sds-color-page:var(--kf-color-page);
+  --sds-color-card:var(--kf-color-card);
+  --sds-color-text:var(--kf-color-text);
+  --sds-space-gap-s:var(--kf-s-8);
+  --sds-space-gap-m:var(--kf-s-16);
+  --sds-space-gap-l:var(--kf-s-24);
+  --sds-space-gap-xl:var(--kf-s-32);
+  --sds-space-page-padding:var(--kf-page-padding);
+  --sds-page-inline:var(--kf-page-inline);
+  --sds-radius-pill:999px;
+  --sds-radius-button:var(--kf-radius-s);
+  --sds-radius-control:var(--kf-s-4);
+  --sds-text-menu-item:500 var(--kf-s-14)/var(--kf-s-24) var(--kf-font-text);
+  --sds-text-phone:500 var(--kf-s-16)/var(--kf-s-24) var(--kf-font-text);
+  /* Рисунок тени библиотечный, цвет — текста сайта. */
+  --sds-shadow-bar:0 0 2px rgba(36,22,11,.08), 0 4px 16px rgba(36,22,11,.08);
+  --sds-motion-duration-fast:var(--kf-dur-mid);
+  --sds-motion-easing:var(--kf-ease);
+  /* Место, которое первый блок страницы обязан оставить под шапку:
+     она fixed и над потоком. Высота пилюли в её css литералом, здесь
+     повторена числом — другого способа сложить её с отступом нет. */
+  --kf-header-space:calc(var(--kf-page-padding) + 64px);
   --sds-pager-offset:0px;
 }
 

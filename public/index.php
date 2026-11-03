@@ -43,6 +43,10 @@ include $engine . '/blocks/main/head.php';
        ─────────────────────────────────────────────────────────────── */ ?>
 
 <?php
+/* 1. Шапка: снимок библиотечного site-header. Она fixed и над потоком,
+   место под неё оставляет первый блок (--kf-header-space в kf-hero). */
+include $root . '/blocks/site-header/site-header.php';
+
 /* 2. Первый экран. Здесь же единственный h1 страницы: его назначает
       сборщик, и на главной это первый экран. */
 $heroHeadingTag = 'h1';
@@ -54,15 +58,24 @@ include $root . '/blocks/facts/facts.php';
 /* 4. Виды упаковки: дорожка карточек. */
 include $root . '/blocks/cards-slider/cards-slider.php';
 
+$anchorId = 'production';
+include $root . '/atoms/anchor/anchor.php';
+
 /* 5. Процесс создания упаковки: заголовок и один кадр видео. */
 include $root . '/blocks/video/video.php';
 
 /* 6. Упаковка по назначению: ровная сетка кадров с ярлыками. */
 include $root . '/blocks/cards-grid/cards-grid.php';
 
+$anchorId = 'packaging';
+include $root . '/atoms/anchor/anchor.php';
+
 /* 7. Конструкции упаковки: плитки под фильтром, тёмная подложка. */
 $filterTilesTitle = ['Конструкции', 'упаковки'];
 include $root . '/blocks/filter-tiles/filter-tiles.php';
+
+$anchorId = 'quality';
+include $root . '/atoms/anchor/anchor.php';
 
 /* 8. Контроль качества: фотографии под тем же фильтром. */
 $filterPhotosTitle = ['Контроль', 'качества'];

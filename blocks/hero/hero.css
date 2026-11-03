@@ -1,10 +1,12 @@
 /* Первый экран. */
+/* Первый блок страницы оставляет место под шапку: она fixed и над
+   потоком, своей высоты в поток не отдаёт. */
 .kf-hero{
-	padding:var(--kf-s-48) var(--kf-page-inline);
+	padding:calc(var(--kf-s-48) + var(--kf-header-space)) var(--kf-page-inline) var(--kf-s-48);
 	color:var(--kf-color-text);
 }
-@media (min-width:641px){ .kf-hero{ padding:var(--kf-s-64) var(--kf-page-inline); } }
-@media (min-width:1081px){ .kf-hero{ padding:var(--kf-s-88) var(--kf-page-inline); } }
+@media (min-width:641px){ .kf-hero{ padding:calc(var(--kf-s-64) + var(--kf-header-space)) var(--kf-page-inline) var(--kf-s-64); } }
+@media (min-width:1081px){ .kf-hero{ padding:calc(var(--kf-s-88) + var(--kf-header-space)) var(--kf-page-inline) var(--kf-s-88); } }
 
 .kf-hero__head{
 	display:flex;

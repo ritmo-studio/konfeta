@@ -1,0 +1,116 @@
+/* site-header v1.1 · Figma 2111:337 · атом button (иконка).
+   Брейкпоинт 1280, а не привычные 768: в Figma нет промежуточного планшетного варианта —
+   только Desktop 1440 и Mobile 375, а меню отдаёт WordPress (wp_nav_menu), длина пунктов
+   заранее не известна. При образце из пяти пунктов и телефоне в пилюле горизонтальное
+   меню с запасом помещается только с 1280 (при 1152 «Дополнительные услуги» уже переносится
+   на вторую строку и ломает высоту пилюли). Мобильная раскладка на 768–1279 работает
+   без переделок, поэтому планшет получает её, а не тесный десктоп. min-width:0 на меню
+   и nowrap на пункте — страховка на случай, если реальный пункт WordPress всё равно
+   окажется длиннее образца: тогда он подожмётся или на пиксель вылезет за пилюлю,
+   но не перенесётся на вторую строку и не выгонит телефон за край экрана.
+   Секция прозрачная: своего фона нет, фон несёт только пилюля .sds-header__bar. */
+/* Фиксируется наверху на любой ширине и остаётся на экране при скролле —
+   якоря меню должны попадать под открытую шапку, а не под её прежнее место. */
+.sds.sds-header{position:fixed;top:0;left:0;right:0;z-index:30;padding-top:var(--sds-space-gap-l);padding-inline:var(--sds-page-inline)}
+@media (max-width:1279.98px){.sds.sds-header{padding-top:var(--sds-space-page-padding)}}
+
+.sds .sds-header__bar{position:relative;display:flex;align-items:center;justify-content:space-between;gap:var(--sds-space-gap-m);height:64px;padding-inline:var(--sds-space-gap-xl);border-radius:var(--sds-radius-pill);background:var(--sds-color-page);box-shadow:var(--sds-shadow-bar)}
+@media (max-width:1279.98px){.sds .sds-header__bar{height:56px;padding-inline:var(--sds-space-gap-m)}}
+
+.sds .sds-header__logo{display:block;flex:none;border-radius:var(--sds-radius-button);overflow:hidden}
+.sds .sds-header__logo-img{display:block;height:40px;width:auto}
+@media (max-width:1279.98px){.sds .sds-header__logo-img{height:28px}}
+
+/* Телефон идёт дважды в разметке (в пилюле на десктопе, в подвале мобильной панели):
+   это два разных места в двух непохожих раскладках Figma, а не одна и та же строка,
+   переносимая CSS. Видимый экземпляр на каждой ширине — один. */
+.sds .sds-header__phone{margin:0;font:var(--sds-text-phone);color:var(--sds-color-text);text-decoration:none;text-transform:uppercase;white-space:nowrap}
+.sds .sds-header__phone--panel{display:block}
+
+/* Навигация и подменю: только десктоп, от 1280. На мобильном (и планшете) меню живёт в полноэкранной панели. */
+.sds .sds-header__nav{display:none}
+.sds .sds-header__phone--bar{display:none}
+.sds .sds-header__toggle{display:block}
+
+/* Шеврон — тот же развёрнутый вниз треугольник, что в атоме accordion: разворачивается
+   на 180° у открытого <details>, язык жестов один на всю библиотеку. Общий для десктопного
+   подменю и мобильного аккордеона, поэтому вне брейкпоинта — оба используют этот класс. */
+.sds .sds-header__chevron{--sds-header-chevron:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 9.5 L12 15.5 L18 9.5' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");flex:none;width:16px;height:16px;background:currentColor;-webkit-mask:var(--sds-header-chevron) center / 16px 16px no-repeat;mask:var(--sds-header-chevron) center / 16px 16px no-repeat}
+@media (prefers-reduced-motion:no-preference){.sds .sds-header__chevron{transition:transform var(--sds-motion-duration-fast) var(--sds-motion-easing)}}
+
+@media (min-width:1280px){
+  .sds .sds-header__nav{display:block;min-width:0}
+  .sds .sds-header__phone--bar{display:block;flex:none}
+  .sds .sds-header__toggle{display:none}
+
+  .sds .sds-header__menu{display:flex;align-items:center;gap:var(--sds-space-gap-l);margin:0;padding:0;list-style:none;min-width:0}
+  .sds .sds-header__link{display:inline-flex;align-items:center;gap:var(--sds-space-gap-s);border:0;background:none;margin:0;padding:0;font:var(--sds-text-menu-item);color:var(--sds-color-text);text-transform:uppercase;text-decoration:none;white-space:nowrap;cursor:pointer}
+  .sds .sds-header__link[aria-current="page"]{color:var(--sds-color-accent);text-decoration:underline}
+  .sds summary.sds-header__link::-webkit-details-marker{display:none}
+  .sds summary.sds-header__link{list-style:none}
+  @media (hover:hover){.sds .sds-header__link:hover{color:var(--sds-color-accent)}}
+  .sds .sds-header__link:focus-visible{outline:2px solid var(--sds-color-accent);outline-offset:4px;border-radius:var(--sds-radius-control)}
+
+  .sds .sds-header__drop[open] > summary .sds-header__chevron{transform:rotate(180deg)}
+
+  .sds .sds-header__drop{position:relative}
+  .sds .sds-header__dropdown{position:absolute;top:calc(100% + var(--sds-space-gap-s));left:0;z-index:1;margin:0;padding:var(--sds-space-gap-s);width:296px;display:flex;flex-direction:column;border-radius:var(--sds-radius-button);background:var(--sds-color-page);box-shadow:var(--sds-shadow-bar);list-style:none}
+  /* Второй уровень — та же панель, выезжает вправо от пункта с шевроном, а не вниз. */
+  .sds .sds-header__dropdown--sub{top:0;left:calc(100% + var(--sds-space-gap-s))}
+
+  .sds .sds-header__drow{display:flex;align-items:center;justify-content:space-between;gap:var(--sds-space-gap-s);width:100%;border:0;background:none;margin:0;padding:var(--sds-space-gap-s) var(--sds-space-gap-m);border-radius:var(--sds-radius-button);font:var(--sds-text-menu-item);color:var(--sds-color-text);text-decoration:none;cursor:pointer;text-align:left}
+  .sds summary.sds-header__drow::-webkit-details-marker{display:none}
+  .sds summary.sds-header__drow{list-style:none}
+  @media (hover:hover){.sds .sds-header__drow:hover{background:var(--sds-color-card)}}
+  .sds .sds-header__drop[open] > summary.sds-header__drow{background:var(--sds-color-card)}
+  .sds .sds-header__drow:focus-visible{outline:2px solid var(--sds-color-accent);outline-offset:-2px}
+}
+
+/* Мобильная панель: открывается нативным <details>, состояния в JS нет.
+   Пока открыта — страница позади не скроллится (:has, без JS), а её содержимое
+   выключено из фокуса атрибутом inert (site-header.js: CSS этого не умеет). */
+/* Блокировка скролла страницы под открытой панелью. Пока идёт анимация закрытия
+   (site-header.js: closePanel), атрибут open специально ещё стоит — ради плавного
+   исчезновения, а не ради блокировки: скролл к выбранному пункту должен пройти
+   именно в эти 300мс, иначе и Lenis, и сама страница (overflow:hidden) не пускают
+   его, и переход визуально не происходит. Поэтому замок держит не open, а is-shown
+   (его снимает тот же closePanel сразу, до конца анимации). Без JS is-shown
+   не появляется вовсе — тогда замком остаётся open, как раньше. */
+html:not(.rs-js) body:has(.sds .sds-header__toggle[open]){overflow:hidden}
+body:has(.sds .sds-header__panel.is-shown){overflow:hidden}
+
+.sds .sds-header__burger{--sds-header-burger:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 7 H20 M4 12 H20 M4 17 H20' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  --sds-header-close:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 6 L18 18 M18 6 L6 18' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  display:flex;flex:none;width:24px;height:24px;background:currentColor;color:var(--sds-color-text);-webkit-mask:var(--sds-header-burger) center / 24px 24px no-repeat;mask:var(--sds-header-burger) center / 24px 24px no-repeat;list-style:none;cursor:pointer}
+.sds .sds-header__burger::-webkit-details-marker{display:none}
+.sds .sds-header__burger:focus-visible{outline:2px solid var(--sds-color-accent);outline-offset:4px;border-radius:var(--sds-radius-control)}
+.sds .sds-header__toggle[open] .sds-header__burger{-webkit-mask-image:var(--sds-header-close);mask-image:var(--sds-header-close);position:fixed;top:calc(var(--sds-space-page-padding) + 16px);right:var(--sds-space-page-padding);z-index:50}
+
+.sds .sds-header__panel{position:fixed;inset:0;display:flex;flex-direction:column;gap:var(--sds-space-gap-l);overflow-y:auto;padding:var(--sds-space-page-padding);background:var(--sds-color-page)}
+/* Открытие/закрытие панели плавное только когда есть JS (rs-js на <html> —
+   в библиотеке это sds-js, класс ставит движок сайта): он же
+   придерживает open/закрытие на время перехода (site-header.js, closePanel).
+   Без JS <details> переключается мгновенно — поведение не хуже прежнего. */
+@media (prefers-reduced-motion:no-preference){
+  .rs-js .sds .sds-header__panel{opacity:0;transform:translateY(-12px);transition:opacity var(--sds-motion-duration-fast) var(--sds-motion-easing),transform var(--sds-motion-duration-fast) var(--sds-motion-easing)}
+  .rs-js .sds .sds-header__panel.is-shown{opacity:1;transform:none}
+}
+
+.sds .sds-header__mobile-menu{display:flex;flex-direction:column;gap:var(--sds-space-gap-s);margin:0;padding:0;list-style:none}
+.sds .sds-header__mrow{display:flex;align-items:center;justify-content:space-between;gap:var(--sds-space-gap-s);width:100%;min-height:56px;border:0;background:none;margin:0;padding:var(--sds-space-gap-m);border-radius:var(--sds-radius-button);font:var(--sds-text-menu-item);color:var(--sds-color-text);text-decoration:none;cursor:pointer;text-align:left}
+.sds .sds-header__mrow[aria-current="page"]{color:var(--sds-color-accent)}
+.sds summary.sds-header__mrow::-webkit-details-marker{display:none}
+.sds summary.sds-header__mrow{list-style:none}
+.sds .sds-header__macc[open] > summary.sds-header__mrow{background:var(--sds-color-card)}
+.sds .sds-header__mrow:focus-visible{outline:2px solid var(--sds-color-accent);outline-offset:-2px}
+.sds .sds-header__chevron--m{transform:rotate(0)}
+@media (prefers-reduced-motion:no-preference){.sds .sds-header__chevron--m{transition:transform var(--sds-motion-duration-fast) var(--sds-motion-easing)}}
+.sds .sds-header__macc[open] > summary .sds-header__chevron--m{transform:rotate(180deg)}
+.sds .sds-header__msub{margin:var(--sds-space-gap-s) 0 0;padding-left:var(--sds-space-gap-m);display:flex;flex-direction:column;gap:var(--sds-space-gap-s);list-style:none}
+
+.sds .sds-header__foot{margin-top:auto;display:flex;flex-direction:column;gap:var(--sds-space-gap-m)}
+
+/* Отличие снимка: пока файла логотипа нет, в ссылке стоит название
+   набором. Высота та же, что у картинки, — пилюля не прыгает. */
+.sds .sds-header__logo-text{display:flex;align-items:center;height:40px;font:var(--sds-text-phone);color:var(--sds-color-text);text-transform:uppercase;white-space:nowrap}
+@media (max-width:1279.98px){.sds .sds-header__logo-text{height:28px}}
