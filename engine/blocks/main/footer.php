@@ -18,7 +18,12 @@ $isProd    = $isProd    ?? false;   // вычислен в head.php
 <?php /* Lenis идёт перед main.js: base.js ищет глобал при старте.
          Вендорится файлом, пакетного менеджера в проекте нет.
          Версия и лицензия — рядом, в assets/js/vendor.        */ ?>
+<?php /* Плавная прокрутка — библиотека, а не часть сборки: сайт, которому
+         она не нужна, ставит $smoothScroll = false и не тянет 20 КБ ради
+         404 в консоли. base.js и без неё работает: там проверка на Lenis. */ ?>
+<?php if (($smoothScroll ?? true) !== false): ?>
 <script src="/assets/js/vendor/lenis.min.js?v=1.3.27" defer></script>
+<?php endif; ?>
 <script src="/assets/js/main.js?v=<?= $assetVer ?? time() ?>" defer></script>
 <?= $bodyExtra ?? '' ?>
 <?php if ($isProd && $metrikaId): /* Небоевой хост не пишет в статистику:

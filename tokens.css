@@ -1,110 +1,112 @@
-/* ТОКЕНЫ САЙТА «КОНФЕТА» · снимок SEO Design System v.0.78 · токены из Figma (коллекция Tokens): color/page → --sds-color-page.
-   Объявлены на .sds (корень каждого блока), а не на :root, чтобы не пересекаться с переменными темы WordPress.
-   Мобильные переменные Figma (…-mobile) переключаются media-запросом, имена в коде единые.
-   Text styles Figma → --sds-text-* (сокращённая запись font). */
-.sds{
-  --sds-color-page:#F4F4EE;--sds-color-card:#DEE1D3;--sds-color-placeholder:#B5B8A6;
-  /* surface-muted — приглушённая полоса, которая уходит назад (подвал).
-     Не путать с placeholder: тот означает «здесь будет картинка». */
-  --sds-color-surface-muted:#EAEAE4;
-  --sds-color-text:#292C21;--sds-color-text-muted:#4A5A54;
-  --sds-color-chip-bg:#292C21;--sds-color-chip-text:#F4F4EE;
-  --sds-color-accent:#413FA3;--sds-color-accent-hover:#35337F;--sds-color-on-accent:#F4F4EE;
-  --sds-color-star:#292C21;--sds-color-star-empty:#B5B8A6;
-  /* Текст поверх кадра: собственная пара цветов и затемнение под ней.
-     Цвет текста блока здесь не годится — под ним фотография, а не фон страницы. */
-  --sds-color-on-overlay:#F4F4EE;--sds-color-on-overlay-muted:#DEE1D3;
-  --sds-color-overlay-scrim:rgba(17,17,17,.82);
-  /* Ошибка поля формы: обычный текст (на светлом фоне страницы) и явный, светлее,
-     вариант для тёмной карточки — на тёмном приглушённый неразличим. */
-  --sds-color-error:#D92B2B;--sds-color-error-on-dark:#FF8A8A;
-  --sds-space-gap-s:8px;--sds-space-gap-m:16px;--sds-space-gap-l:24px;--sds-space-gap-xl:32px;
-  --sds-space-page-padding:40px;--sds-space-card-padding:40px;
-  /* Радиус по масштабу формы: секция во всю ширину → карточка → плитка внутри неё →
-     иконочная коробка. На мобильном каждая форма берёт шаг ниже — переопределения
-     в медиазапросе внизу файла, блокам для этого ничего делать не нужно. */
-  --sds-radius-section:40px;--sds-radius-card:24px;--sds-radius-tile:16px;
-  --sds-radius-icon:12px;--sds-radius-button:12px;--sds-radius-control:4px;--sds-radius-pill:999px;
-  --sds-layout-max:1440px;--sds-layout-measure:720px;
-  /* Боковой отступ секции вместо max-width: сама секция во всю ширину экрана,
-     а содержимое остаётся в пределах layout-max и центрируется. Так фон блока
-     можно покрасить на всю ширину, не трогая разметку.
-     Шире layout-max: (100% − max) / 2 + отступ. Уже: обычный отступ страницы. */
-  --sds-page-inline:max(var(--sds-space-page-padding), calc((100% - var(--sds-layout-max)) / 2 + var(--sds-space-page-padding)));
-  --sds-badge-size:64px;
-  --sds-motion-duration:600ms;--sds-motion-duration-fast:300ms;--sds-motion-easing:cubic-bezier(0.22,0.61,0.36,1);
-  /* Тень для всплывающих поверхностей: мягкая, двухслойная — близкий контур плюс дальний ореол. */
-  --sds-shadow-bar:0 0 2px rgba(17,17,17,.08), 0 4px 16px rgba(17,17,17,.08);
-  --sds-font-sans:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-  --sds-h1-size:clamp(36px,3.89vw,56px);
-  --sds-h2-size:clamp(28px,2.78vw,40px);
-  --sds-text-h1:600 var(--sds-h1-size)/1.1 var(--sds-font-sans);
-  --sds-text-h2:600 var(--sds-h2-size)/1.1 var(--sds-font-sans);
-  --sds-text-body:400 18px/1.5 var(--sds-font-sans);
-  --sds-text-body-strong:500 18px/1.5 var(--sds-font-sans);
-  /* Мелкий пояснительный текст: пояснение под названием услуги, сноска.
-     Не путать с rating-caption — тот однострочный (1.2), этот переносится. */
-  --sds-text-caption:400 14px/1.5 var(--sds-font-sans);
-  --sds-h3-size:24px;
-  --sds-text-h3:600 var(--sds-h3-size)/1.3 var(--sds-font-sans);
-  --sds-text-card-title:600 20px/1.3 var(--sds-font-sans);
-  --sds-text-badge:500 24px/1 var(--sds-font-sans);
-  --sds-text-chip:500 14px/1.2 var(--sds-font-sans);
-  --sds-text-button:600 16px/1.2 var(--sds-font-sans);
-  --sds-text-rating-value:600 40px/1 var(--sds-font-sans);
-  --sds-text-rating-caption:400 14px/1.2 var(--sds-font-sans);
-  --sds-text-rating-label:400 16px/1.2 var(--sds-font-sans);
-  /* ТРЕКИНГ. В сокращённую запись font не входит ни он, ни регистр, поэтому правило
-     такое: у текстового стиля, у которого в Figma letterSpacing не ноль, рядом с
-     font-токеном объявляется парный --sds-text-<стиль>-tracking, и блок пишет
-     letter-spacing:var(...) НА ТОМ ЖЕ элементе, где стоит font. На родителе нельзя:
-     letter-spacing наследуется и протёк бы во все вложенные стили.
-     Сейчас трекинг в библиотеке есть ровно у одного стиля — eyebrow (0.12 в Figma,
-     text/eyebrow-desktop и -mobile). У остальных 29 стилей он ноль, в том числе
-     у body-desktop/body-mobile: минус 2% на подписях и отзывах — значение клиентской
-     копии, не библиотеки (см. library-sets-values-not-the-mockup). Захочет дизайнер
-     трекинг в системе — сначала стиль в Figma, потом парный токен здесь.
-     Надзаголовок, меню и телефон идут ещё и ПРОПИСНЫМИ: text-transform:uppercase
-     блок тоже дописывает сам.
-     Интерлиньяж у этих стилей задан в пикселях, а не множителем — так в Figma. */
-  --sds-text-eyebrow:500 12px/16px var(--sds-font-sans);
-  --sds-text-eyebrow-tracking:.12px;
-  --sds-text-menu:500 14px/24px var(--sds-font-sans);
-  --sds-text-menu-item:500 14px/24px var(--sds-font-sans);
-  --sds-text-phone:500 16px/24px var(--sds-font-sans);
-}
-@media (max-width:767.98px){.sds{--sds-radius-section:24px;--sds-radius-card:16px;--sds-radius-tile:12px;--sds-radius-icon:8px;--sds-space-page-padding:16px;--sds-space-card-padding:24px;--sds-h1-size:32px;--sds-h2-size:28px;--sds-text-body:400 16px/1.5 var(--sds-font-sans);--sds-text-body-strong:500 16px/1.5 var(--sds-font-sans);--sds-text-menu:500 16px/24px var(--sds-font-sans);--sds-text-menu-item:500 16px/24px var(--sds-font-sans);--sds-h3-size:20px;--sds-text-card-title:600 18px/1.3 var(--sds-font-sans);--sds-badge-size:32px;--sds-text-badge:500 14px/1 var(--sds-font-sans)}}
+/* ═══════════════════════════════════════════════════════════════
+   ТОКЕНЫ САЙТА «КОНФЕТА»
 
-/* ─────────────────────────────────────────────────────────────
-   Токены объявлены и на :root: блоки kf- корня .sds не имеют,
-   а темы WordPress, от которой библиотека отгораживалась, здесь нет.
-   ───────────────────────────────────────────────────────────── */
+   Набор и имена — по правилам SEO Design System v.0.78
+   (Figma 6avxpE8zkv7lLs2G2f4Oah), значения сайтовые: палитра,
+   шрифты и шкала «Конфеты» с библиотечными не совпадают ни в
+   одном значении, поэтому снимок токенов библиотеки сюда не едет —
+   едут её правила. Префикс kf-, как у блоков сайта.
+
+   ШКАЛА ТЕКУЧАЯ. Так свёрстан утверждённый сайт: всё мерится
+   юнитом, завязанным на ширину экрана, и страница масштабируется
+   целиком. Единственное отличие от исходной вёрстки — clamp:
+   там юнит 0.5236vw без границ, рассчитанный на макет 1528, и в
+   полосе 641–1080 он давал базовый кегль 8–10px (замеры: 768 →
+   7.9px, 900 → 9.3px). Нижняя граница 8px лечит планшет, верхняя
+   10px держит 1920 там, где он сейчас. На 1528 clamp даёт ровно
+   8px — десктоп совпадает с утверждённым.
+   ═══════════════════════════════════════════════════════════════ */
+
 :root{
-  --sds-color-page:#F4F4EE;--sds-color-text:#292C21;
-  --sds-font-sans:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  /* Юнит и шкала. Мобильная ветка — в медиазапросе внизу файла. */
+  --kf-unit:clamp(8px, .523560209424084vw, 10px);
+  --kf-s-4:calc(var(--kf-unit) * .5);
+  --kf-s-6:calc(var(--kf-unit) * .75);
+  --kf-s-8:var(--kf-unit);
+  --kf-s-12:calc(var(--kf-unit) * 1.5);
+  --kf-s-14:calc(var(--kf-unit) * 1.75);
+  --kf-s-16:calc(var(--kf-unit) * 2);
+  --kf-s-20:calc(var(--kf-unit) * 2.5);
+  --kf-s-22:calc(var(--kf-unit) * 2.75);
+  --kf-s-24:calc(var(--kf-unit) * 3);
+  --kf-s-28:calc(var(--kf-unit) * 3.5);
+  --kf-s-32:calc(var(--kf-unit) * 4);
+  --kf-s-40:calc(var(--kf-unit) * 5);
+  --kf-s-44:calc(var(--kf-unit) * 5.5);
+  --kf-s-48:calc(var(--kf-unit) * 6);
+  --kf-s-64:calc(var(--kf-unit) * 8);
+  --kf-s-88:calc(var(--kf-unit) * 11);
+
+  /* Боковой отступ страницы. Секция тянется во всю ширину, отступ
+     даёт содержимому; max-width у сайта нет — он масштабируется. */
+  --kf-page-inline:var(--kf-s-8);
+
+  /* Цвет */
+  --kf-color-page:#FBF7F3;
+  --kf-color-card:#FFFDF5;
+  /* «Здесь будет фотография»: до картиночной итерации плитка рисует
+     этот цвет, а не пустоту — иначе раскладку не проверить. */
+  --kf-color-placeholder:#EFE7DF;
+  --kf-color-text:#24160B;
+  --kf-color-text-subdued:#24160B99;
+  --kf-color-on-dark:#FFFFFF;
+  /* Тёмная подложка блока конструкций. На утверждённом сайте там
+     фотография производства; до картиночной итерации — плоский цвет. */
+  --kf-color-dark:#24160B;
+  --kf-color-accent:#8484F2;
+  --kf-color-accent-2:#E7613B;
+  --kf-color-border:#A9A9F5;
+
+  --kf-radius-s:var(--kf-s-8);
+  --kf-radius:var(--kf-s-16);
+
+  /* Шрифты. Файлы ещё не перенесены: PT Root UI и акцидентный
+     Ambidexter идут с запасным стеком, подставить через fonts.py. */
+  --kf-font-text:'PT Root UI',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+  --kf-font-display:'Ambidexter',Georgia,'Times New Roman',serif;
+
+  /* Текстовые стили сокращённой записью font. Трекинг в неё не
+     входит — по правилу библиотеки у стиля с ненулевым трекингом
+     рядом объявляется парный токен, и блок пишет letter-spacing
+     на том же элементе, где стоит font. */
+  --kf-text-title:450 var(--kf-s-28)/var(--kf-s-32) var(--kf-font-text);
+  --kf-text-title-tracking:-.03em;
+  --kf-text-body:400 var(--kf-s-16)/var(--kf-s-24) var(--kf-font-text);
+  --kf-text-lead:400 var(--kf-s-20)/var(--kf-s-32) var(--kf-font-text);
+  --kf-text-tab:400 var(--kf-s-22)/var(--kf-s-32) var(--kf-font-text);
+  --kf-text-tile:400 var(--kf-s-14)/var(--kf-s-16) var(--kf-font-text);
+  --kf-text-tile-wide:400 var(--kf-s-24)/1 var(--kf-font-text);
+
+  --kf-dur:180ms;
+  --kf-dur-long:600ms;
+  --kf-ease:cubic-bezier(.22,.61,.36,1);
+}
+
+/* Мобильная ветка: юнит крупнее относительно экрана — 8px при 375.
+   Верхняя граница 13.65px повторяет поведение сайта на 640. */
+@media (max-width:640px){
+  :root{ --kf-unit:clamp(8px, 2.133333333333333vw, 13.65px); }
 }
 
 /* ─────────────────────────────────────────────────────────────
    МОСТ ДЛЯ БЛОКОВ ДВИЖКА. Занавес, 404 и base.css движка знают
-   только имена rs-. Значения им даёт библиотека — так источник
-   правды остаётся один, а переименовывать движок не приходится.
+   только имена rs- (их 22, список — в engine.json). Значения им
+   даёт эта таблица, чтобы источник правды остался один.
    ───────────────────────────────────────────────────────────── */
 :root{
-  --rs-unit:8px;
-  --rs-s-24:24px;--rs-s-48:48px;--rs-s-80:80px;
-  --rs-color-page:var(--sds-color-page);
-  --rs-color-text:var(--sds-color-text);
-  --rs-color-accent-2:var(--sds-color-accent);
-  --rs-color-critical:var(--sds-color-error);
-  --rs-font-text:var(--sds-font-sans);
-  --rs-fs-body:18px;--rs-lh-body:1.5;--rs-ls-text:0;
-  --rs-fs-wordmark:32px;--rs-lh-wordmark:40px;
-  --rs-ease:var(--sds-motion-easing);
-  --rs-ease-inout:cubic-bezier(.65,0,.35,1);
-  --rs-dur:var(--sds-motion-duration-fast);
-  --rs-dur-long:var(--sds-motion-duration);
-  --rs-page-inline:var(--sds-page-inline);
-  --rs-radius-s:var(--sds-radius-button);
+  --rs-unit:var(--kf-unit);
+  --rs-s-24:var(--kf-s-24);--rs-s-48:var(--kf-s-48);--rs-s-80:calc(var(--kf-unit) * 10);
+  --rs-page-inline:var(--kf-page-inline);
+  --rs-radius-s:var(--kf-radius-s);
+  --rs-color-page:var(--kf-color-page);
+  --rs-color-text:var(--kf-color-text);
+  --rs-color-accent-2:var(--kf-color-accent-2);
+  --rs-color-critical:#D92B2B;
+  --rs-font-text:var(--kf-font-text);
+  --rs-fs-body:var(--kf-s-16);--rs-lh-body:var(--kf-s-24);--rs-ls-text:0;
+  --rs-fs-wordmark:var(--kf-s-32);--rs-lh-wordmark:var(--kf-s-40);
+  --rs-dur:var(--kf-dur);--rs-dur-long:var(--kf-dur-long);
+  --rs-ease:var(--kf-ease);--rs-ease-inout:cubic-bezier(.65,0,.35,1);
   --rs-anim-delay:0ms;
-  --rs-anim-clip-radius:var(--sds-radius-section);
+  --rs-anim-clip-radius:var(--kf-radius);
 }

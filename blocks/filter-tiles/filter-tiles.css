@@ -1,0 +1,81 @@
+/* Плитки под фильтром.
+
+   Секция тянется во всю ширину, отступ даёт содержимому: иначе
+   тёмную подложку обрезало бы по ширине макета. */
+.kf-filter-tiles{
+	padding:var(--kf-s-48) var(--kf-page-inline) var(--kf-s-40);
+	color:var(--kf-color-on-dark);
+	background:var(--kf-color-dark);
+}
+@media (min-width:1081px){
+	.kf-filter-tiles{ padding:var(--kf-s-88) var(--kf-page-inline) var(--kf-s-44); }
+}
+
+.kf-filter-tiles__title{
+	font:var(--kf-text-title);
+	letter-spacing:var(--kf-text-title-tracking);
+	margin:0 0 var(--kf-s-16);
+}
+.kf-filter-tiles__title span{
+	font-family:var(--kf-font-display);
+	color:var(--kf-color-accent);
+}
+@media (min-width:641px){
+	.kf-filter-tiles__title{ margin-bottom:var(--kf-s-24); }
+}
+
+.kf-filter-tiles__filter{ margin-bottom:var(--kf-s-24); }
+
+.kf-filter-tiles__grid{
+	display:grid;
+	grid-template-columns:repeat(2, 1fr);
+	gap:var(--kf-s-8);
+}
+@media (min-width:641px){
+	.kf-filter-tiles__grid{
+		grid-template-columns:repeat(3, 1fr);
+		gap:var(--kf-s-12);
+	}
+}
+
+.kf-filter-tiles__tile{
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	justify-content:center;
+	padding:var(--kf-s-16);
+	color:var(--kf-color-text);
+	border-radius:var(--kf-radius-s);
+	background:var(--kf-color-card);
+}
+@media (min-width:641px){
+	.kf-filter-tiles__tile{ padding:var(--kf-s-24); }
+}
+
+/* Место под чертёж. Пропорция держит высоту плитки одинаковой у всей
+   группы и до того, как чертежи появятся. */
+.kf-filter-tiles__drawing{
+	overflow:hidden;
+	width:100%;
+	aspect-ratio:290 / 200;
+}
+.kf-filter-tiles__drawing img,
+.kf-filter-tiles__drawing svg{
+	display:block;
+	width:100%; height:100%;
+	object-fit:contain;
+}
+
+.kf-filter-tiles__caption{
+	font:var(--kf-text-tile);
+	margin:auto 0 0;
+	text-align:center;
+}
+@media (min-width:641px){
+	.kf-filter-tiles__caption{
+		font:var(--kf-text-tile-wide);
+		margin:0;
+		text-align:left;
+		align-self:stretch;
+	}
+}

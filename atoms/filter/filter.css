@@ -1,0 +1,47 @@
+/* Фильтр группами. Тон не задаётся: цвет наследуется от блока —
+   на тёмной подложке конструкций он белый, на светлой галерее тёмный. */
+.kf-filter{ display:none; }
+.kf-filter-ready .kf-filter{ display:block; }
+
+.kf-filter__tabs{ display:none; }
+.kf-filter__compact{ display:flex; align-items:center; gap:var(--kf-s-8); }
+
+@media (min-width:641px){
+	.kf-filter__tabs{ display:flex; flex-wrap:wrap; gap:var(--kf-s-20); }
+	.kf-filter__compact{ display:none; }
+}
+
+.kf-filter__tab{
+	font:var(--kf-text-tab);
+	position:relative;
+	margin:0; padding:0;
+	cursor:pointer;
+	color:inherit;
+	border:0; background:none;
+}
+/* Подчёркивание активной группы: собственная линия, а не
+   text-decoration — её можно анимировать по ширине. */
+.kf-filter__tab::after{
+	position:absolute; right:0; bottom:0; left:0;
+	height:1px;
+	content:'';
+	transform:scaleX(0); transform-origin:left;
+	transition:transform var(--kf-dur) var(--kf-ease);
+	background:currentColor;
+}
+.kf-filter__tab:hover::after,
+.kf-filter__tab:focus-visible::after{ transform:scaleX(1); }
+.kf-filter__tab.is-active{ font-weight:500; }
+.kf-filter__tab.is-active::after{ transform:scaleX(1); }
+
+.kf-filter__label{ font:var(--kf-text-body); color:inherit; }
+.kf-filter__select{
+	font:var(--kf-text-body);
+	flex:1 1 auto;
+	min-width:0; padding:var(--kf-s-8) var(--kf-s-12);
+	cursor:pointer;
+	color:inherit;
+	border:1px solid currentColor;
+	border-radius:var(--kf-radius-s);
+	background:none;
+}

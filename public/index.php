@@ -9,6 +9,7 @@ $pageTitle       = 'Изготовление картонной упаковки
 $metaDescription = 'Производство картонной упаковки в СПб от 1 шт. Собственное производство полного цикла с 1996 года: коробки жёсткие, МГК, пакеты, папки, ложементы. Бесплатный образец и расчёт — за 1 день. Доставка по СПб и РФ.';
 $pageUrl         = 'https://konfeta.group/';
 $bodyClass       = 'page-home';
+$smoothScroll    = false;   // на «Конфете» её не было, и 20 КБ ради неё не нужны
 
 /* JSON-LD на старом сайте собирал WordPress: BreadcrumbList, CollectionPage,
    Organization, WebSite. Переносится отдельной итерацией — в content/schema.php. */
@@ -40,5 +41,16 @@ include $engine . '/blocks/main/head.php';
        11. site-footer       подвал библиотеки
        12. cta-sticky        прилипшая кнопка, на старом сайте её не было
        ─────────────────────────────────────────────────────────────── */ ?>
+
+<?php
+/* 7. Конструкции упаковки: плитки под фильтром, тёмная подложка. */
+$filterTilesTitle = ['Конструкции', 'упаковки'];
+include $root . '/blocks/filter-tiles/filter-tiles.php';
+
+/* 8. Контроль качества: фотографии под тем же фильтром. */
+$filterPhotosTitle = ['Контроль', 'качества'];
+$filterPhotosLead  = 'У всех наших изделий ровная форма, твёрдые углы, прямые и чёткие загибы, а склейка не пузырится и не заламывается.';
+include $root . '/blocks/filter-photos/filter-photos.php';
+?>
 
 <?php include $engine . '/blocks/main/footer.php'; ?>

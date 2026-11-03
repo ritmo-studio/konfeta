@@ -1,6 +1,6 @@
 {
   "name": "ritmo-engine",
-  "version": "0.12",
+  "version": "0.14",
   "note": "Сборка для сайтов без базы данных: страница — PHP-файл с инклюдами, HTML отдаёт сервер. Пока живёт внутри ritmo.studio и проверяется им. Выносится в свой репозиторий после того, как на ней встанет второй сайт: граница движок/сайт проверяется только переносом, до него списки parts и site_specific — обоснованная догадка, а не факт.",
   "runtime": "php",
   "html": "server-side include, статика не собирается",
@@ -16,6 +16,7 @@
       "canonical",
       "metaImage",
       "bodyClass",
+      "smoothScroll",
       "noindex",
       "jsonLd",
       "headExtra",
@@ -42,7 +43,7 @@
     "engine/tools/fonts.py": "TTF из fonts-src → WOFF2 в public/assets/fonts; ttf остаются исходниками вне докрута (и потому не качаются наружу — для trial-версий это ещё и лицензия), повторять после замены файлов шрифтов",
     "engine/tools/nginx.conf.example": "Конфиг сайта с комментариями: root на public/, маршрут 404, канонический адрес 301, карта редиректов, заголовки кэша статики, заголовки безопасности (HSTS, nosniff, Referrer-Policy, CSP), блок по умолчанию на чужой Host (у панелей он обычно уже есть — в FastPanel это conf.d/parking.conf, второй рядом не даст nginx запуститься), try_files в php-location, запрет файлов с точкой, оговорка про ACME-челлендж. Отдельный файл, а не записка: четыре вещи из него PHP сделать не может в принципе, потому что для статики не запускается. Про add_header там же: свой заголовок в location отменяет наследование, поэтому в блоках кэша заголовки повторены",
     "engine/blocks/page-404/*": "Содержимое страницы «не найдено». Текст сайтовый, разметка и контракт общие",
-    "tokens.css": "Значения сайтовые, но набор и имена токенов — общие: блоки движка ссылаются на --rs-unit, --rs-ease, --rs-color-critical"
+    "tokens.css": "Значения сайтовые, набор и имена общие. Блоки движка и base.css ссылаются на 22 переменные, и без любой из них едет занавес, 404 или показ по входу в экран: --rs-unit, --rs-s-24, --rs-s-48, --rs-s-80, --rs-page-inline, --rs-radius-s, --rs-color-page, --rs-color-text, --rs-color-accent-2, --rs-color-critical, --rs-font-text, --rs-fs-body, --rs-lh-body, --rs-ls-text, --rs-fs-wordmark, --rs-lh-wordmark, --rs-dur, --rs-dur-long, --rs-ease, --rs-ease-inout, --rs-anim-delay, --rs-anim-clip-radius. Список не держать в голове, он проверяется командой: grep -ho 'var(--rs-[a-z0-9-]*' base.css blocks/*/*.css blocks/*/*.php | sort -u. Сайт, у которого своя система токенов, объявляет эти имена мостом на свои значения — так делает konfeta"
   },
   "site_specific": [
     "tokens.css — значения (набор токенов общий)",

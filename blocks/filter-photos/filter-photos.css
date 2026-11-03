@@ -1,0 +1,70 @@
+/* Фотографии под фильтром. */
+.kf-filter-photos{
+	padding:var(--kf-s-48) var(--kf-page-inline);
+	color:var(--kf-color-text);
+}
+@media (min-width:641px){ .kf-filter-photos{ padding:var(--kf-s-64) var(--kf-page-inline); } }
+@media (min-width:1081px){ .kf-filter-photos{ padding:var(--kf-s-88) var(--kf-page-inline); } }
+
+.kf-filter-photos__head{
+	display:flex;
+	flex-direction:column;
+	gap:var(--kf-s-16);
+	margin-bottom:var(--kf-s-24);
+}
+@media (min-width:641px){
+	/* Заголовок слева, пояснение справа — на утверждённом сайте
+	   пояснение занимает треть и прижато к низу строки заголовка. */
+	.kf-filter-photos__head{
+		display:grid;
+		grid-template-columns:2fr 1fr;
+		align-items:end;
+		gap:var(--kf-s-8);
+		margin-bottom:var(--kf-s-40);
+	}
+}
+
+.kf-filter-photos__title{
+	font:var(--kf-text-title);
+	letter-spacing:var(--kf-text-title-tracking);
+	margin:0;
+}
+.kf-filter-photos__title span{
+	font-family:var(--kf-font-display);
+	color:var(--kf-color-accent);
+}
+.kf-filter-photos__lead{ font:var(--kf-text-body); margin:0; }
+@media (min-width:641px){ .kf-filter-photos__lead{ font:var(--kf-text-lead); } }
+
+.kf-filter-photos__filter{ margin-bottom:var(--kf-s-16); }
+
+/* Раскладка чередованием: широкий кадр, за ним узкий. Flex, а не
+   grid, потому что ширины заданы долями с вычетом половины отбивки,
+   и перенос должен происходить сам — в группах разное число кадров. */
+.kf-filter-photos__grid{
+	display:flex;
+	flex-wrap:wrap;
+	gap:var(--kf-s-12);
+}
+.kf-filter-photos__frame{
+	overflow:hidden;
+	width:100%;
+	aspect-ratio:360 / 312;
+	border-radius:var(--kf-radius);
+	background:var(--kf-color-placeholder);
+}
+@media (min-width:641px){
+	.kf-filter-photos__frame:nth-child(odd){
+		width:calc(66.6666% - var(--kf-s-6));
+		aspect-ratio:685 / 434;
+	}
+	.kf-filter-photos__frame:nth-child(even){
+		width:calc(33.3333% - var(--kf-s-6));
+		aspect-ratio:339 / 434;
+	}
+}
+.kf-filter-photos__frame img{
+	display:block;
+	width:100%; height:100%;
+	object-fit:cover;
+}
