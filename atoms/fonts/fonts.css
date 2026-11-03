@@ -1,0 +1,29 @@
+/* Шрифты сайта. Лежат не в блоке и не в движке: @font-face — общая
+   часть страницы, а движковый base.css в сайте не правят.
+
+   PT Root UI переменный, ось веса реально 300–700. На утверждённом
+   сайте в @font-face написано 400 900 — это неправда, в файле такого
+   диапазона нет; наши 450 (заголовки) и 500 (подписи, активная
+   группа фильтра) в настоящий диапазон попадают.
+
+   Файлы взяты с утверждённого сайта (wp-content/themes/wp19/fonts) и
+   сжаты в woff2: ttf 266,6 КБ → 97,5 КБ, otf 95 КБ → 31,6 КБ. Отдавать
+   браузеру ttf и otf, как сейчас делает сайт, незачем — woff2 понимают
+   все живые браузеры.
+
+   swap, а не block: первый экран должен читаться сразу, а подмена
+   начертания на 450 заметна меньше, чем пустая страница. */
+@font-face{
+	font-family:'PT Root UI';
+	src:url("/assets/fonts/pt-root-ui-vf.woff2") format("woff2");
+	font-weight:300 700;
+	font-style:normal;
+	font-display:swap;
+}
+@font-face{
+	font-family:'Ambidexter';
+	src:url("/assets/fonts/ambidexter-regular.woff2") format("woff2");
+	font-weight:400;
+	font-style:normal;
+	font-display:swap;
+}

@@ -92,8 +92,9 @@
   --kf-radius-s:var(--kf-s-8);
   --kf-radius:var(--kf-s-20);
 
-  /* Шрифты. Файлы ещё не перенесены: PT Root UI и акцидентный
-     Ambidexter идут с запасным стеком, подставить через fonts.py. */
+  /* Шрифты. Файлы перенесены с утверждённого сайта и сжаты в woff2,
+     объявление — atoms/fonts. Запасной стек оставлен: пока файл не
+     пришёл, страница читается системным набором. */
   --kf-font-text:'PT Root UI',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
   --kf-font-display:'Ambidexter',Georgia,'Times New Roman',serif;
 
@@ -159,13 +160,16 @@
   --kf-color-text-faint:#AFAFAF;
   --kf-text-menu:400 var(--kf-s-16)/var(--kf-s-24) var(--kf-font-text);
   --kf-text-menu-panel:400 var(--kf-s-24)/var(--kf-s-32) var(--kf-font-text);
-  /* Плашка «производство в Санкт-Петербурге»: интерлиньяж у неё
-     собственный шрифтовой, в вёрстке сайта он не задан. */
-  --kf-text-info:400 var(--kf-s-16)/normal var(--kf-font-text);
-  /* Подпись группы контактов и служебная строка подвала. У мелкой
-     строки интерлиньяж шрифтовой — в вёрстке сайта он не задан. */
+  /* Базовый интерлиньяж сайта. На утверждённом сайте он задан на
+     корне (1,15) и достаётся всему, где не задан свой. Это не
+     шрифтовой normal: у PT Root UI тот даёт 1,1875, то есть 19 вместо
+     18,4 при 16 кегле. Строки, у которых в вёрстке сайта своего
+     интерлиньяжа нет, берут отсюда. */
+  --kf-lh-base:1.15;
+  --kf-text-info:400 var(--kf-s-16)/var(--kf-lh-base) var(--kf-font-text);
+  /* Подпись группы контактов и служебная строка подвала. */
   --kf-text-contact-label:500 var(--kf-s-16)/var(--kf-s-24) var(--kf-font-text);
-  --kf-text-fine:400 var(--kf-s-12)/normal var(--kf-font-text);
+  --kf-text-fine:400 var(--kf-s-12)/var(--kf-lh-base) var(--kf-font-text);
 }
 
 /* Мобильная ветка: юнит крупнее относительно экрана — 8px при 375.
