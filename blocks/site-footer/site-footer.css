@@ -55,10 +55,23 @@
 }
 @media (min-width:1081px){ .kf-site-footer__group:nth-child(3){ grid-column:auto; } }
 
-.kf-site-footer__group{ display:flex; flex-direction:column; gap:var(--kf-s-12); }
-.kf-site-footer__label{ font:var(--kf-text-contact-label); margin:0; }
+/* Интерлиньяж контактов задан на группе и меняется трижды, как на
+   сайте: на узком экране он шрифтовой (16 кегль даёт 18,4), с 641 —
+   20, с 1081 — 24. Поэтому подпись и строки берут его наследованием,
+   а из токена — только кегль и начертание. */
+.kf-site-footer__group{
+	display:flex;
+	flex-direction:column;
+	gap:var(--kf-s-12);
+	line-height:normal;
+}
+@media (min-width:641px){ .kf-site-footer__group{ line-height:var(--kf-s-20); } }
+@media (min-width:1081px){ .kf-site-footer__group{ line-height:var(--kf-s-24); } }
+
+.kf-site-footer__label{ font:var(--kf-text-contact-label); line-height:inherit; margin:0; }
 .kf-site-footer__lines{
 	font:var(--kf-text-body);
+	line-height:inherit;
 	display:flex;
 	flex-direction:column;
 	align-items:center;
