@@ -1,0 +1,93 @@
+/* Как оформить заказ. Значения сняты с утверждённой вёрстки — там они
+   уже заданы в юнитах, поэтому перенос прямой: сетка 1fr и 63,8 юнита
+   с отбивкой 80, шаг с полями 32 по вертикали и линией снизу, номер
+   14,5 юнита наборным шрифтом.
+
+   Сетка одна на шапку и на шаг: номер встаёт под заголовком, текст
+   шага — под пояснением. Поэтому она переменной блока, а не
+   повторена дважды. */
+.kf-steps{
+	--kf-steps-grid:1fr calc(var(--kf-unit) * 63.8);
+	padding:var(--kf-s-48) var(--kf-page-inline);
+	color:var(--kf-color-text);
+}
+@media (min-width:641px){ .kf-steps{ padding:var(--kf-s-64) var(--kf-page-inline); } }
+@media (min-width:1081px){ .kf-steps{ padding:var(--kf-s-88) var(--kf-page-inline); } }
+
+/* Отбивки у шапки нет: воздух до первого шага даёт его верхнее поле. */
+.kf-steps__head{
+	display:flex;
+	flex-direction:column;
+	gap:var(--kf-s-16);
+}
+@media (min-width:641px){
+	.kf-steps__head{
+		display:grid;
+		grid-template-columns:var(--kf-steps-grid);
+		align-items:end;
+		gap:var(--kf-s-80);
+	}
+}
+
+.kf-steps__title{
+	font:var(--kf-text-title);
+	letter-spacing:var(--kf-text-title-tracking);
+	margin:0;
+}
+.kf-steps__title span{ font-family:var(--kf-font-display); color:var(--kf-color-accent); }
+
+.kf-steps__note{
+	font:var(--kf-text-note);
+	display:flex;
+	flex-direction:column;
+	gap:var(--kf-s-16);
+}
+.kf-steps__note p{ margin:0; }
+
+.kf-steps__list{ margin:0; padding:0; list-style:none; }
+
+/* Линия снизу у каждого шага, включая последний, — так на сайте:
+   она читается как граница секции. Полпикселя тоже оттуда: на экранах
+   с удвоенной плотностью это ровно один физический пиксель. */
+.kf-steps__step{
+	display:flex;
+	flex-direction:column;
+	gap:var(--kf-s-24);
+	padding:var(--kf-s-32) 0;
+	border-bottom:.5px solid var(--kf-color-text);
+}
+@media (min-width:641px){
+	.kf-steps__step{
+		display:grid;
+		grid-template-columns:var(--kf-steps-grid);
+		gap:var(--kf-s-80);
+	}
+}
+
+/* Номер набран в кегль, который выше своей строки, поэтому глифы
+   соседних шагов могут налезать друг на друга. Порядок наложения
+   задан явно: верхний шаг поверх нижнего, как на сайте. */
+.kf-steps__number{
+	font:var(--kf-text-step-number);
+	position:relative;
+	margin:0;
+	text-align:center;
+}
+@media (min-width:641px){ .kf-steps__number{ text-align:center; } }
+.kf-steps__step:nth-child(1){ z-index:5; }
+.kf-steps__step:nth-child(2){ z-index:4; }
+.kf-steps__step:nth-child(3){ z-index:3; }
+.kf-steps__step:nth-child(4){ z-index:2; }
+.kf-steps__step:nth-child(5){ z-index:1; }
+
+.kf-steps__body{
+	display:flex;
+	flex-direction:column;
+	justify-content:center;
+	gap:var(--kf-s-4);
+	text-align:center;
+}
+@media (min-width:641px){ .kf-steps__body{ gap:var(--kf-s-8); text-align:left; } }
+
+.kf-steps__name{ font:var(--kf-text-step-name); margin:0; }
+.kf-steps__text{ font:var(--kf-text-step-text); margin:0; }

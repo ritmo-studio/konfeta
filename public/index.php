@@ -70,4 +70,9 @@ $filterPhotosLead  = 'У всех наших изделий ровная фор�
 include $root . '/blocks/filter-photos/filter-photos.php';
 ?>
 
+<?php
+/* 9. Как оформить заказ: пять шагов, только текст. */
+include $root . '/blocks/steps/steps.php';
+?>
+
 <?php include $engine . '/blocks/main/footer.php'; ?>

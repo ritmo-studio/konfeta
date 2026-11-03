@@ -26,6 +26,7 @@
   --kf-s-12:calc(var(--kf-unit) * 1.5);
   --kf-s-14:calc(var(--kf-unit) * 1.75);
   --kf-s-16:calc(var(--kf-unit) * 2);
+  --kf-s-18:calc(var(--kf-unit) * 2.25);
   --kf-s-20:calc(var(--kf-unit) * 2.5);
   --kf-s-22:calc(var(--kf-unit) * 2.75);
   --kf-s-24:calc(var(--kf-unit) * 3);
@@ -112,6 +113,14 @@
   --kf-text-tile:400 var(--kf-s-24)/var(--kf-s-24) var(--kf-font-text);
   /* Подпись-ярлык поверх кадра: строка в плотном наборе, без интерлиньяжа. */
   --kf-text-label:400 var(--kf-s-20)/var(--kf-s-20) var(--kf-font-text);
+  /* Пояснение рядом с заголовком: мельче основного текста. */
+  --kf-text-note:400 var(--kf-s-18)/var(--kf-s-20) var(--kf-font-text);
+  /* Шаг порядка работы: номер наборным шрифтом, под ним название и текст.
+     Номер 14,5 юнита — ступени под такой кегль в шкале нет, и вводить её
+     незачем: других вхождений у этого размера на сайте нет. */
+  --kf-text-step-number:400 calc(var(--kf-unit) * 14.5)/1 var(--kf-font-display);
+  --kf-text-step-name:400 var(--kf-s-32)/1 var(--kf-font-text);
+  --kf-text-step-text:400 var(--kf-s-18)/var(--kf-s-24) var(--kf-font-text);
   --kf-text-tile-tracking:-.02em;
   --kf-text-more:500 var(--kf-s-16)/var(--kf-s-24) var(--kf-font-text);
   --kf-text-more-tracking:-.01em;
@@ -144,6 +153,10 @@
     --kf-text-lead:400 var(--kf-s-16)/var(--kf-s-24) var(--kf-font-text);
     --kf-text-tile:400 var(--kf-s-14)/var(--kf-s-16) var(--kf-font-text);
     --kf-text-label:400 var(--kf-s-14)/var(--kf-s-16) var(--kf-font-text);
+    --kf-text-note:400 var(--kf-s-16)/var(--kf-s-24) var(--kf-font-text);
+    --kf-text-step-number:400 var(--kf-s-80)/var(--kf-s-56) var(--kf-font-display);
+    --kf-text-step-name:400 var(--kf-s-24)/1 var(--kf-font-text);
+    --kf-text-step-text:400 var(--kf-s-16)/var(--kf-s-24) var(--kf-font-text);
     --kf-text-more:500 var(--kf-s-14)/var(--kf-s-16) var(--kf-font-text);
     --kf-text-card-title:450 var(--kf-s-20)/var(--kf-s-24) var(--kf-font-text);
     --kf-text-card-text:400 var(--kf-s-14)/var(--kf-s-20) var(--kf-font-text);
