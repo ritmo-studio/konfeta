@@ -1,0 +1,135 @@
+/* Базовый слой сайта «Ритм». Подключается после tokens.css, до блоков. */
+
+/*! ── Шрифты ────────────────────────────────────────────────────
+   Обе гарнитуры вариативные: один файл закрывает весь диапазон
+   начертаний. Лежат ttf-ом — woff2 вдвое легче, но конвертера
+   в окружении нет; сжать перед боевым запуском.
+
+   Отдаётся woff2, ttf рядом лежит исходником: тот же шрифт, сжатый
+   с учётом структуры таблиц — картинка та же, вес втрое меньше.
+   Конвертация — tools/fonts.py, повторить после замены файлов.
+
+   ВНИМАНИЕ: это TRIAL-версии от TypeType и YFF. На боевом сайте
+   нужна купленная лицензия — пробная коммерческое использование
+   не покрывает.                                                 */
+@font-face{
+  font-family: "TT Fors";
+  src: url("/assets/fonts/TT-Fors-Trial-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face{
+  font-family: "YFF RARE";
+  src: url("/assets/fonts/YFF_RARE_VF_TRIAL.woff2") format("woff2");
+  font-weight: 100 950;
+  font-style: normal;
+  font-display: swap;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { background: var(--rs-color-page); scrollbar-gutter: stable; }
+
+body {
+  margin: 0;
+  color: var(--rs-color-text);
+  background: var(--rs-color-page);
+  font-family: var(--rs-font-text);
+  font-size: var(--rs-fs-body);
+  line-height: var(--rs-lh-body);
+  letter-spacing: var(--rs-ls-text);
+  -webkit-font-smoothing: antialiased;
+  text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+}
+
+img, video { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+h1, h2, h3, h4, p, figure, blockquote { margin: 0; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+button, input, textarea, select { font: inherit; color: inherit; }
+
+/* Корень блока: секция во всю ширину, контент внутри бокового отступа. */
+.rs-section {
+  padding-block: var(--rs-s-48);
+  padding-inline: var(--rs-page-inline);
+  background: var(--rs-color-page);
+}
+@media (min-width: 641px){
+  .rs-section { padding-block: var(--rs-s-80); }
+}
+
+/* ── Появление ─────────────────────────────────────────────────
+   Одна анимация на всю библиотеку. Срабатывает по входу в экран,
+   а не по загрузке страницы, — блок не знает своей позиции.
+
+   Начальное состояние прячется ТОЛЬКО при классе rs-js на <html>:
+   без JS контент виден сразу. При prefers-reduced-motion тоже.
+
+   Каскад внутри блока задаётся переменной --rs-anim-delay на
+   любом родителе: она наследуется, поэтому один style на списке
+   расставляет задержку всем его детям.                          */
+.rs-anim { transition: opacity var(--rs-dur) var(--rs-ease),
+                       transform var(--rs-dur) var(--rs-ease);
+           transition-delay: var(--rs-anim-delay, 0s); }
+
+.rs-js .rs-anim { opacity: 0; transform: translateY(16px); }
+.rs-js .rs-anim.is-in { opacity: 1; transform: none; }
+
+/* ── Появление медиа ───────────────────────────────────────────
+   Кадр раскрывается из центра, будто из-под маски. Так приходят
+   крупное медиа первого экрана и картинки в ленте проектов.
+
+   Проявления и сдвига здесь нет намеренно: под общим fade
+   раскрытие маски почти не читается — кадр успевает проявиться
+   раньше, чем маска откроется. Поэтому вариант не дополняет
+   базовое появление, а заменяет его целиком.
+
+   Иллюстрация у «о студии» и финальный экран к этому не
+   относятся: первая появляется обычным способом, второй
+   раскрывается прокруткой.                                     */
+.rs-anim--clip { transition: clip-path var(--rs-dur-long) var(--rs-ease);
+                 transition-delay: var(--rs-anim-delay, 0s); }
+
+/* Скругление окна берётся из --rs-anim-clip-radius: без него
+   растущее окно было бы с острыми углами на скруглённой плашке.
+   Значение по умолчанию — радиус наших медиа-плашек.           */
+.rs-js .rs-anim--clip {
+  opacity: 1; transform: none;
+  clip-path: inset(50% round var(--rs-anim-clip-radius, var(--rs-radius-s)));
+}
+.rs-js .rs-anim--clip.is-in {
+  clip-path: inset(0 round var(--rs-anim-clip-radius, var(--rs-radius-s)));
+}
+
+@media (prefers-reduced-motion: reduce){
+  .rs-js .rs-anim { opacity: 1; transform: none; transition: none; }
+  .rs-js .rs-anim--clip { clip-path: none; transition: none; }
+  * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+/* Доступность: видимый фокус и скрытие строго для скринридеров. */
+:focus-visible { outline: 2px solid var(--rs-color-accent-2); outline-offset: 2px; }
+.rs-sr-only {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+
+/* ── Плавная прокрутка (Lenis) ─────────────────────────────────
+   Библиотека не подменяет прокрутку своей, а доводит настоящую
+   позицию окна кадр за кадром. Поэтому sticky, fixed и события
+   scroll продолжают работать как обычно — на этом держатся
+   липкая шапка колонки, финальный экран и все наши обработчики.
+
+   Классы вешает сама библиотека на <html>.                     */
+html.lenis,
+html.lenis body{ height: auto; }
+
+.lenis.lenis-smooth{ scroll-behavior: auto !important; }
+
+/* Внутренние прокручиваемые области исключаются атрибутом
+   data-lenis-prevent: без него колесо внутри них уедет в страницу. */
+.lenis.lenis-smooth [data-lenis-prevent]{ overscroll-behavior: contain; }
+
+.lenis.lenis-stopped{ overflow: hidden; }

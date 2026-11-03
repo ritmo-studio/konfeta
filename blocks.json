@@ -1,0 +1,8 @@
+{
+  "site": "konfeta.group",
+  "snapshotOf": { "library": "SEO Design System", "version": "0.78", "figmaFile": "6avxpE8zkv7lLs2G2f4Oah" },
+  "engine": "0.12",
+  "note": "Блоки с префиксом kf- собственные, менять их свободно. Блоки sds- приехали из библиотеки и обещают соответствие ей: подогнал значения — переводи в kf-, иначе diff с библиотекой начнёт врать.",
+  "atoms": {},
+  "blocks": {}
+}

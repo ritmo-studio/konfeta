@@ -1,0 +1,33 @@
+/* ── Страница 404 ──────────────────────────────────────────────
+   Вне каркаса главной: боковой колонки с лентой здесь нет, и
+   растягивать её на одну фразу незачем.                        */
+.rs-page-404{
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: var(--rs-s-24);
+  padding: var(--rs-s-24) var(--rs-page-inline);
+}
+
+.rs-page-404__brand{ display: inline-flex; width: fit-content; }
+.rs-page-404__brand img{ display: block; height: auto; }
+
+.rs-page-404__body{
+  align-self: center;
+  display: grid;
+  justify-items: start;
+  gap: var(--rs-s-24);
+  max-width: 40ch;
+}
+
+.rs-page-404__code{
+  font-size: var(--rs-fs-wordmark);
+  line-height: var(--rs-lh-wordmark);
+  letter-spacing: var(--rs-ls-text);
+}
+
+.rs-page-404__text{
+  font-size: var(--rs-fs-body);
+  line-height: var(--rs-lh-body);
+  letter-spacing: var(--rs-ls-text);
+}
