@@ -40,6 +40,36 @@
 			select.addEventListener('change', function () { show(select.selectedIndex); });
 		}
 
+		/* Порции внутри панели: сетка с data-limited показывает по N
+		   плиток, остальное открывает кнопка. Число в подписи — сколько
+		   порций осталось, а не сколько плиток: так в макете. */
+		function limit(panel) {
+			var grid = panel.querySelector('[data-limited]');
+			var more = panel.querySelector('[data-more]');
+			if (!grid || !more) return;
+			var step = parseInt(grid.getAttribute('data-limited'), 10) || 6;
+			var tiles = [].slice.call(grid.children);
+			var shownCount = Math.min(step, tiles.length);
+
+			function render() {
+				tiles.forEach(function (t, i) { t.hidden = (i >= shownCount); });
+				var rest = tiles.length - shownCount;
+				if (rest > 0) {
+					more.setAttribute('data-more-rest', String(rest));
+					var box = more.querySelector('[data-more-count]');
+					if (box) box.textContent = '(' + Math.ceil(rest / step) + ')';
+				} else {
+					more.removeAttribute('data-more-rest');
+				}
+			}
+			if (!more.dataset.bound) {
+				more.dataset.bound = '1';
+				more.addEventListener('click', function () { shownCount += step; render(); });
+			}
+			render();
+		}
+		panels.forEach(limit);
+
 		root.classList.add('kf-filter-ready');
 		show(0);
 	});

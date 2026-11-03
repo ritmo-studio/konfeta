@@ -5,14 +5,14 @@
 	display:flex;
 	align-items:center;
 	justify-content:center;
-	gap:var(--kf-s-16);
+	gap:var(--kf-s-24);
 }
 /* Листать нечего — органы управления не висят мёртвыми. */
 .sds-slider--no-overflow .kf-counter{ display:none; }
 
 .kf-counter__arrow{
 	display:flex;
-	width:var(--kf-s-24); height:var(--kf-s-24);
+	width:var(--kf-s-16); height:var(--kf-s-16);
 	padding:0;
 	cursor:pointer;
 	color:inherit;
@@ -23,7 +23,8 @@
 .kf-counter__arrow:hover{ color:var(--kf-color-accent); }
 .kf-counter__value{
 	font:var(--kf-text-body);
-	min-width:var(--kf-s-64);
+	letter-spacing:var(--kf-text-body-tracking);
+	min-width:var(--kf-s-56);
 	margin:0;
 	text-align:center;
 	font-variant-numeric:tabular-nums;

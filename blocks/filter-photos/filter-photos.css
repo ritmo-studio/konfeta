@@ -6,6 +6,9 @@
 @media (min-width:641px){ .kf-filter-photos{ padding:var(--kf-s-64) var(--kf-page-inline); } }
 @media (min-width:1081px){ .kf-filter-photos{ padding:var(--kf-s-88) var(--kf-page-inline); } }
 
+/* Шапка: заголовок со стрелкой в одной строке, под ними пояснение.
+   Числа из макета 1528 — 24 между заголовком и пояснением, 32 до
+   фильтра, 16 от фильтра до кадров. */
 .kf-filter-photos__head{
 	display:flex;
 	flex-direction:column;
@@ -13,9 +16,26 @@
 	margin-bottom:var(--kf-s-24);
 }
 @media (min-width:641px){
-	/* Пояснение идёт под заголовком, а не рядом: двухколоночная
-	   раскладка block--title.-grid на этом блоке не включена. */
-	.kf-filter-photos__head{ gap:var(--kf-s-8); margin-bottom:var(--kf-s-40); }
+	.kf-filter-photos__head{ gap:var(--kf-s-24); margin-bottom:var(--kf-s-32); }
+}
+
+.kf-filter-photos__line{
+	display:flex;
+	align-items:flex-end;
+	justify-content:space-between;
+	gap:var(--kf-s-24);
+}
+/* Стрелка вниз у края — указатель на то, что ниже есть содержимое.
+   На узком экране её в макете нет. */
+.kf-filter-photos__hint{ display:none; }
+@media (min-width:641px){
+	.kf-filter-photos__hint{
+		display:block;
+		flex:0 0 auto;
+		width:var(--kf-s-36);
+		color:var(--kf-color-text);
+	}
+	.kf-filter-photos__hint svg{ display:block; width:100%; height:auto; }
 }
 
 .kf-filter-photos__title{
@@ -27,14 +47,21 @@
 	font-family:var(--kf-font-display);
 	color:var(--kf-color-accent);
 }
-.kf-filter-photos__lead{ font:var(--kf-text-body); margin:0; }
-@media (min-width:641px){ .kf-filter-photos__lead{ font:var(--kf-text-lead); } }
+.kf-filter-photos__lead{
+	font:var(--kf-text-lead);
+	letter-spacing:var(--kf-text-lead-tracking);
+	max-width:var(--kf-measure);
+	margin:0;
+}
 
 .kf-filter-photos__filter{ margin-bottom:var(--kf-s-16); }
+/* Группы здесь идут обычным рядом, а не враспор: их пять и они
+   короткие — в макете они стоят слева с отбивкой 32. */
+.kf-filter-photos .kf-filter__tabs{ justify-content:flex-start; }
 
 /* Раскладка кадров — в atoms/frames: она общая с первым экраном.
    Здесь только отбивка счётчика от дорожки. */
-.kf-filter-photos .kf-counter{ margin-top:var(--kf-s-24); }
+.kf-filter-photos .kf-counter{ margin-top:var(--kf-s-32); }
 @media (min-width:641px){
 	.sds-slider--js .kf-filter-photos__group .kf-counter{ justify-content:flex-end; }
 }

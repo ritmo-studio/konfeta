@@ -1,14 +1,13 @@
-/* Плитки под фильтром.
-
-   Секция тянется во всю ширину, отступ даёт содержимому: иначе
-   тёмную подложку обрезало бы по ширине макета. */
+/* Плитки под фильтром. Числа — из макета 1528 (юнит 8): отступы
+   секции 80/40, сетка в три колонки по 480 с отбивкой 12, плитка с
+   полем 24 и местом под чертёж высотой 264. */
 .kf-filter-tiles{
-	padding:var(--kf-s-48) var(--kf-page-inline) var(--kf-s-40);
+	padding:var(--kf-s-48) var(--kf-page-inline);
 	color:var(--kf-color-on-dark);
-	background:var(--kf-color-accent);
+	background:var(--kf-color-surface-deep);
 }
-@media (min-width:1081px){
-	.kf-filter-tiles{ padding:var(--kf-s-88) var(--kf-page-inline) var(--kf-s-44); }
+@media (min-width:641px){
+	.kf-filter-tiles{ padding:var(--kf-s-80) var(--kf-page-inline) var(--kf-s-40); }
 }
 
 .kf-filter-tiles__title{
@@ -17,14 +16,13 @@
 	margin:0 0 var(--kf-s-16);
 }
 /* На подложке акцентное слово остаётся белым: цветом оно бы с ней
-   слилось. Так и на утверждённом сайте — там это правило отдельным
-   переопределением для этого блока. */
+   слилось. Так и в макете. */
 .kf-filter-tiles__title span{ font-family:var(--kf-font-display); }
 @media (min-width:641px){
 	.kf-filter-tiles__title{ margin-bottom:var(--kf-s-24); }
 }
 
-.kf-filter-tiles__filter{ margin-bottom:var(--kf-s-24); }
+.kf-filter-tiles__filter{ margin-bottom:var(--kf-s-16); }
 
 .kf-filter-tiles__grid{
 	display:grid;
@@ -41,13 +39,16 @@
 .kf-filter-tiles__tile{
 	display:flex;
 	flex-direction:column;
+	gap:var(--kf-s-8);
 	align-items:center;
-	justify-content:center;
 	padding:var(--kf-s-16);
 	color:var(--kf-color-text);
 	border-radius:var(--kf-radius-s);
 	background:var(--kf-color-card);
 	transition:color var(--kf-dur) var(--kf-ease), background-color var(--kf-dur) var(--kf-ease);
+}
+@media (min-width:641px){
+	.kf-filter-tiles__tile{ padding:var(--kf-s-24); }
 }
 /* Наведение заливает плитку целиком: чертёж рисуется обводкой
    currentColor, поэтому он белеет вместе с подписью. */
@@ -55,16 +56,17 @@
 	color:var(--kf-color-on-dark);
 	background:var(--kf-color-hover);
 }
-@media (min-width:641px){
-	.kf-filter-tiles__tile{ padding:var(--kf-s-24); }
-}
+.kf-filter-tiles__tile:hover .kf-filter-tiles__caption{ font-weight:500; }
 
-/* Место под чертёж. Пропорция держит высоту плитки одинаковой у всей
-   группы и до того, как чертежи появятся. */
+/* Место под чертёж: высота задана, а не пропорцией — в макете она
+   одна у всех плиток группы, и ряд стоит ровно. */
 .kf-filter-tiles__drawing{
 	overflow:hidden;
 	width:100%;
-	aspect-ratio:290 / 200;
+	height:var(--kf-s-104);
+}
+@media (min-width:641px){
+	.kf-filter-tiles__drawing{ height:var(--kf-s-264); }
 }
 .kf-filter-tiles__drawing img,
 .kf-filter-tiles__drawing svg{
@@ -73,18 +75,35 @@
 	object-fit:contain;
 }
 
+/* Подпись занимает свою полосу постоянной высоты: названия бывают в
+   одну и в две строки, а низ плитки должен быть на одном уровне. */
 .kf-filter-tiles__caption{
 	font:var(--kf-text-tile);
-	margin:auto 0 0;
+	letter-spacing:var(--kf-text-tile-tracking);
+	display:flex;
+	width:100%;
+	height:var(--kf-s-32);
+	margin:0;
+	align-items:center;
+	justify-content:center;
 	text-align:center;
 }
 @media (min-width:641px){
-	/* Подпись не растягивается на ширину плитки: она остаётся блоком
-	   по содержимому и центрируется флексом — так на утверждённом
-	   сайте, где text-align:left виден только на переносе в две строки. */
-	.kf-filter-tiles__caption{
-		font:var(--kf-text-tile-wide);
-		margin:0;
-		text-align:left;
-	}
+	.kf-filter-tiles__caption{ height:var(--kf-s-48); }
 }
+
+/* Показать ещё: порция плиток за раз. Кнопки в макете нет — ссылка
+   строкой, прописными, со стрелкой. */
+.kf-filter-tiles__more{
+	font:var(--kf-text-more);
+	letter-spacing:var(--kf-text-more-tracking);
+	display:none;
+	margin-top:var(--kf-s-16);
+	padding:0;
+	cursor:pointer;
+	text-transform:uppercase;
+	color:inherit;
+	border:0;
+	background:none;
+}
+.kf-filter-ready .kf-filter-tiles__more[data-more-rest]{ display:block; }

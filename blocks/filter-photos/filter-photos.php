@@ -28,8 +28,13 @@ $filterLabel = 'Что проверяем';
 ?>
 <section class="sds kf-filter-photos" data-anim="kf-filter">
 	<div class="kf-filter-photos__head">
-		<<?= $hTag ?> class="kf-filter-photos__title rs-anim"><?= $te($title[0]) ?><?php
-			if (!empty($title[1])): ?> <span><?= $te($title[1]) ?></span><?php endif; ?></<?= $hTag ?>>
+		<div class="kf-filter-photos__line rs-anim">
+			<<?= $hTag ?> class="kf-filter-photos__title"><?= $te($title[0]) ?><?php
+				if (!empty($title[1])): ?> <span><?= $te($title[1]) ?></span><?php endif; ?></<?= $hTag ?>>
+			<div class="kf-filter-photos__hint" aria-hidden="true">
+				<svg viewBox="0 0 36 52" fill="none"><path d="M18 0v50m0 0 15-15M18 50 3 35" stroke="currentColor" stroke-width="1.5"/></svg>
+			</div>
+		</div>
 		<?php if ($lead !== ''): ?>
 		<p class="kf-filter-photos__lead rs-anim"><?= $te($lead) ?></p>
 		<?php endif; ?>

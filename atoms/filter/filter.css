@@ -13,12 +13,17 @@
 .kf-filter__compact{ display:flex; align-items:center; gap:var(--kf-s-8); }
 
 @media (min-width:641px){
-	.kf-filter__tabs{ display:flex; flex-wrap:wrap; gap:var(--kf-s-20); }
+	/* Группы разнесены по всей ширине: в макете они занимают строку
+	   целиком, а не жмутся к левому краю. Блок, которому нужен обычный
+	   ряд, переопределяет justify-content у себя. */
+	.kf-filter__tabs{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:var(--kf-s-32); }
 	.kf-filter__compact{ display:none; }
 }
 
 .kf-filter__tab{
 	font:var(--kf-text-tab);
+	letter-spacing:var(--kf-text-tab-tracking);
+	white-space:nowrap;
 	position:relative;
 	margin:0; padding:0;
 	cursor:pointer;
@@ -38,6 +43,17 @@
 .kf-filter__tab:hover::after,
 .kf-filter__tab:focus-visible::after{ transform:scaleX(1); }
 .kf-filter__tab.is-active{ font-weight:500; }
+
+/* Число в группе — верхним индексом, вполсилы: это пометка о составе,
+   а не часть названия. У выбранной группы оно в полную силу. */
+.kf-filter__count{
+	font-size:.645em;
+	margin-left:.15em;
+	opacity:.6;
+	vertical-align:super;
+	line-height:0;
+}
+.kf-filter__tab.is-active .kf-filter__count{ opacity:1; }
 .kf-filter__tab.is-active::after{ transform:scaleX(1); }
 
 /* Подпись поля нужна скринридеру, на экране её нет: поле подписано
@@ -52,10 +68,12 @@
 .kf-filter__select{
 	font:var(--kf-text-body);
 	flex:1 1 auto;
-	min-width:0; padding:var(--kf-s-8) var(--kf-s-12);
+	min-width:0;
 	cursor:pointer;
+	letter-spacing:var(--kf-text-body-tracking);
+	padding:var(--kf-s-12) var(--kf-s-8);
 	color:var(--kf-color-text);
-	border:0;
-	border-radius:var(--kf-radius-s);
+	border:1px solid rgba(102,102,102,.06);
+	border-radius:var(--kf-s-4);
 	background:var(--kf-color-card);
 }

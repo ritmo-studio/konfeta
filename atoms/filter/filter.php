@@ -28,7 +28,7 @@ if ($filterItems):
 		<?php foreach ($filterItems as $i => $it): ?>
 		<button class="kf-filter__tab<?= $i === 0 ? ' is-active' : '' ?>" type="button"
 		        data-group="<?= (int)$i ?>" aria-pressed="<?= $i === 0 ? 'true' : 'false' ?>"><?= $fe($it['label']) ?><?php
-		        if (!empty($it['count'])): ?> (<?= (int)$it['count'] ?>)<?php endif; ?></button>
+		        if (!empty($it['count'])): ?><sup class="kf-filter__count"><?= (int)$it['count'] ?></sup><?php endif; ?></button>
 		<?php endforeach; ?>
 	</div>
 	<label class="kf-filter__compact">

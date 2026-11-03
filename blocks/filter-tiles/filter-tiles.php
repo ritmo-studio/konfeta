@@ -39,7 +39,8 @@ $filterLabel = 'Группа конструкций';
 		</div>
 
 		<?php foreach ($tiles as $i => $group): ?>
-		<div class="kf-filter-tiles__grid" data-panel="<?= (int)$i ?>">
+		<div class="kf-filter-tiles__panel" data-panel="<?= (int)$i ?>">
+		<div class="kf-filter-tiles__grid" data-limited="6">
 			<?php foreach ($group['items'] as $item): ?>
 			<div class="kf-filter-tiles__tile rs-anim">
 				<div class="kf-filter-tiles__drawing"<?= empty($item['image']) ? ' aria-hidden="true"' : '' ?>>
@@ -50,6 +51,8 @@ $filterLabel = 'Группа конструкций';
 				<p class="kf-filter-tiles__caption"><?= $te($item['title']) ?></p>
 			</div>
 			<?php endforeach; ?>
+		</div>
+		<button class="kf-filter-tiles__more" type="button" data-more>Показать ещё <span data-more-count></span> →</button>
 		</div>
 		<?php endforeach; ?>
 	</div>

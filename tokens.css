@@ -31,10 +31,15 @@
   --kf-s-24:calc(var(--kf-unit) * 3);
   --kf-s-28:calc(var(--kf-unit) * 3.5);
   --kf-s-32:calc(var(--kf-unit) * 4);
+  --kf-s-36:calc(var(--kf-unit) * 4.5);
   --kf-s-40:calc(var(--kf-unit) * 5);
   --kf-s-44:calc(var(--kf-unit) * 5.5);
   --kf-s-48:calc(var(--kf-unit) * 6);
+  --kf-s-56:calc(var(--kf-unit) * 7);
   --kf-s-64:calc(var(--kf-unit) * 8);
+  --kf-s-80:calc(var(--kf-unit) * 10);
+  --kf-s-104:calc(var(--kf-unit) * 13);
+  --kf-s-264:calc(var(--kf-unit) * 33);
   --kf-s-88:calc(var(--kf-unit) * 11);
 
   /* Ширина содержимого и боковой отступ. Сама секция тянется во всю
@@ -63,9 +68,10 @@
   --kf-color-text-subdued:#24160B99;
   --kf-color-on-dark:#FFFFFF;
   --kf-color-on-accent:#ECF1F3;
-  /* Тёмная подложка блока конструкций. На утверждённом сайте там
-     фотография производства; до картиночной итерации — плоский цвет. */
-  --kf-color-dark:#24160B;
+  /* Подложка блока конструкций: не акцент, своя приглушённая краска.
+     Поверх неё в макете лежит паттерн из контуров коробок — придёт
+     картинкой, пока плоская заливка. */
+  --kf-color-surface-deep:#727CBC;
   --kf-color-accent:#8484F2;
   --kf-color-accent-2:#E7613B;
   /* Ховер плитки: тёплый оранжевый, светлее акцента-2. Отдельное
@@ -74,7 +80,7 @@
   --kf-color-border:#A9A9F5;
 
   --kf-radius-s:var(--kf-s-8);
-  --kf-radius:var(--kf-s-16);
+  --kf-radius:var(--kf-s-20);
 
   /* Шрифты. Файлы ещё не перенесены: PT Root UI и акцидентный
      Ambidexter идут с запасным стеком, подставить через fonts.py. */
@@ -85,13 +91,22 @@
      входит — по правилу библиотеки у стиля с ненулевым трекингом
      рядом объявляется парный токен, и блок пишет letter-spacing
      на том же элементе, где стоит font. */
-  --kf-text-title:450 var(--kf-s-28)/var(--kf-s-32) var(--kf-font-text);
-  --kf-text-title-tracking:-.03em;
+  --kf-text-title:400 var(--kf-s-56)/var(--kf-s-56) var(--kf-font-text);
+  --kf-text-title-tracking:-.01em;
   --kf-text-body:400 var(--kf-s-16)/var(--kf-s-24) var(--kf-font-text);
-  --kf-text-lead:400 var(--kf-s-20)/var(--kf-s-32) var(--kf-font-text);
-  --kf-text-tab:400 var(--kf-s-22)/var(--kf-s-32) var(--kf-font-text);
-  --kf-text-tile:400 var(--kf-s-14)/var(--kf-s-16) var(--kf-font-text);
-  --kf-text-tile-wide:400 var(--kf-s-24)/1 var(--kf-font-text);
+  --kf-text-body-tracking:-.03em;
+  --kf-text-lead:400 var(--kf-s-20)/var(--kf-s-24) var(--kf-font-text);
+  --kf-text-lead-tracking:-.01em;
+  --kf-text-tab:400 var(--kf-s-24)/var(--kf-s-32) var(--kf-font-text);
+  --kf-text-tab-tracking:-.03em;
+  --kf-text-tile:400 var(--kf-s-24)/var(--kf-s-24) var(--kf-font-text);
+  --kf-text-tile-tracking:-.02em;
+  --kf-text-more:500 var(--kf-s-16)/var(--kf-s-24) var(--kf-font-text);
+  --kf-text-more-tracking:-.01em;
+
+  /* Ширина пояснения под заголовком: 74.25 юнита. Длиннее строка
+     читается хуже, и в макете текст набран ровно в две строки. */
+  --kf-measure:calc(var(--kf-unit) * 74.25);
 
   --kf-dur:180ms;
   --kf-dur-long:600ms;
@@ -102,6 +117,14 @@
    Верхняя граница 13.65px повторяет поведение сайта на 640. */
 @media (max-width:640px){
   :root{ --kf-unit:clamp(8px, 2.133333333333333vw, 13.65px); }
+}
+@media (max-width:640px){
+  :root{
+    --kf-text-title:400 var(--kf-s-28)/var(--kf-s-32) var(--kf-font-text);
+    --kf-text-lead:400 var(--kf-s-16)/var(--kf-s-24) var(--kf-font-text);
+    --kf-text-tile:400 var(--kf-s-14)/var(--kf-s-16) var(--kf-font-text);
+    --kf-text-more:500 var(--kf-s-14)/var(--kf-s-16) var(--kf-font-text);
+  }
 }
 @media (min-width:641px){ :root{ --kf-page-padding:var(--kf-s-24); } }
 @media (min-width:1081px){ :root{ --kf-page-padding:var(--kf-s-32); } }
