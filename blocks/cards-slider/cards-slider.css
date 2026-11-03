@@ -1,0 +1,114 @@
+/* Виды упаковки: дорожка карточек. */
+.kf-cards-slider{
+	padding:var(--kf-s-48) var(--kf-page-inline);
+	color:var(--kf-color-text);
+}
+@media (min-width:641px){ .kf-cards-slider{ padding:var(--kf-s-64) var(--kf-page-inline); } }
+@media (min-width:1081px){ .kf-cards-slider{ padding:var(--kf-s-88) var(--kf-page-inline); } }
+
+.kf-cards-slider__title{
+	font:var(--kf-text-title);
+	letter-spacing:var(--kf-text-title-tracking);
+	margin:0 0 var(--kf-s-24);
+}
+.kf-cards-slider__title span{
+	font-family:var(--kf-font-display);
+	color:var(--kf-color-accent);
+}
+
+/* Дорожка. Отбивки между карточками нет — так на утверждённом сайте:
+   карточки идут встык, и край следующей виден за правым краем экрана.
+   Прокрутку и перетаскивание даёт атом slider. */
+.kf-cards-slider__track{
+	display:flex;
+	gap:0;
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+
+/* Карточка. На узком экране кадр сверху, текст под ним; на широком
+   пополам — кадр слева, текст справа. Ширина 100 юнитов, не доля
+   дорожки: шкала сайта текучая, и карточка растёт вместе с кеглем, а
+   не вместо него. На 1440 это 800 — ровно как в утверждённой вёрстке
+   на её 1528. */
+.kf-cards-slider__card{
+	overflow:hidden;
+	flex:0 0 auto;
+	display:flex;
+	flex-direction:column;
+	width:100%;
+	border-radius:var(--kf-radius);
+}
+@media (min-width:641px){
+	.kf-cards-slider__card{
+		display:grid;
+		grid-template-columns:repeat(2, 1fr);
+		width:calc(var(--kf-unit) * 100);
+	}
+}
+
+.kf-cards-slider__pic{
+	overflow:hidden;
+	aspect-ratio:359 / 320;
+	background:var(--kf-color-placeholder);
+}
+@media (min-width:641px){
+	.kf-cards-slider__pic{ aspect-ratio:390 / 440; }
+}
+.kf-cards-slider__pic img{
+	display:block;
+	width:100%; height:100%;
+	object-fit:cover;
+}
+
+/* Текст прижат к низу карточки: заголовки бывают в одну и в две
+   строки, и выровнены они должны быть по нижнему краю, а не по
+   верхнему — так в утверждённой вёрстке. */
+.kf-cards-slider__body{
+	display:flex;
+	flex-direction:column;
+	justify-content:flex-end;
+	gap:var(--kf-s-12);
+	padding:var(--kf-s-20) var(--kf-s-16);
+	border:1px solid var(--kf-color-border);
+	border-top:0;
+	border-radius:0 0 var(--kf-radius) var(--kf-radius);
+}
+@media (min-width:641px){
+	.kf-cards-slider__body{
+		padding:var(--kf-s-24) var(--kf-s-40);
+		border-top:1px solid var(--kf-color-border);
+		border-left:0;
+		border-radius:0 var(--kf-radius) var(--kf-radius) 0;
+	}
+}
+
+.kf-cards-slider__name{
+	font:var(--kf-text-card-title);
+	margin:0;
+}
+.kf-cards-slider__text{
+	font:var(--kf-text-card-text);
+	margin:0;
+}
+
+/* Текущая карточка залита акцентом — так на утверждённом сайте
+   помечен активный слайд. Только с 641: на узком экране карточка в
+   дорожке одна, помечать нечего. Класс ставит cards-slider.js.
+   Поверх заливки в макете лежит паттерн из контуров коробок
+   (pattern.svg, прозрачность 0.2) — придёт картиночной итерацией. */
+@media (min-width:641px){
+	.kf-cards-slider__card.is-current{
+		color:var(--kf-color-on-dark);
+		background:var(--kf-color-accent-2);
+	}
+	.kf-cards-slider__card.is-current .kf-cards-slider__body{ border-color:transparent; }
+}
+
+/* Счётчик: отбивка от дорожки 16, на узком экране 32 и по центру —
+   там он единственный орган управления и стоит посередине. */
+.kf-cards-slider .kf-counter{ margin-top:var(--kf-s-16); }
+@media (max-width:640px){
+	.kf-cards-slider .kf-counter{ margin-top:var(--kf-s-32); justify-content:center; }
+}

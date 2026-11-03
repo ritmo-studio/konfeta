@@ -51,6 +51,9 @@ include $root . '/blocks/hero/hero.php';
 /* 3. Почему нас выбирают: шесть фактов пирамидой. */
 include $root . '/blocks/facts/facts.php';
 
+/* 4. Виды упаковки: дорожка карточек. */
+include $root . '/blocks/cards-slider/cards-slider.php';
+
 /* 7. Конструкции упаковки: плитки под фильтром, тёмная подложка. */
 $filterTilesTitle = ['Конструкции', 'упаковки'];
 include $root . '/blocks/filter-tiles/filter-tiles.php';
