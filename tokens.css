@@ -105,7 +105,9 @@
   --kf-text-body-tracking:-.03em;
   --kf-text-lead:400 var(--kf-s-20)/var(--kf-s-24) var(--kf-font-text);
   --kf-text-lead-tracking:-.01em;
-  --kf-text-tab:400 var(--kf-s-24)/var(--kf-s-32) var(--kf-font-text);
+  /* Группы фильтра — 500-м: так на утверждённом сайте. В записях по
+     макету остались только кегль и трекинг, вес там не зафиксирован. */
+  --kf-text-tab:500 var(--kf-s-24)/var(--kf-s-32) var(--kf-font-text);
   --kf-text-tab-tracking:-.03em;
   --kf-text-tile:400 var(--kf-s-24)/var(--kf-s-24) var(--kf-font-text);
   --kf-text-tile-tracking:-.02em;
