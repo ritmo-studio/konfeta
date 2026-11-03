@@ -54,6 +54,9 @@ include $root . '/blocks/facts/facts.php';
 /* 4. Виды упаковки: дорожка карточек. */
 include $root . '/blocks/cards-slider/cards-slider.php';
 
+/* 5. Процесс создания упаковки: заголовок и один кадр видео. */
+include $root . '/blocks/video/video.php';
+
 /* 7. Конструкции упаковки: плитки под фильтром, тёмная подложка. */
 $filterTilesTitle = ['Конструкции', 'упаковки'];
 include $root . '/blocks/filter-tiles/filter-tiles.php';
