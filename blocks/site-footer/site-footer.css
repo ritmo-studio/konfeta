@@ -1,0 +1,137 @@
+/* Подвал. Значения с утверждённой вёрстки: поле сверху 88 на узком
+   экране и 112 на широком, снизу 104 (на узком там место под
+   прилипшую кнопку) и 32; раскладка на широком — две колонки, карта
+   во всю высоту справа; заголовок по центру с отбивкой 32 / 56;
+   группы контактов в колонку с отбивкой 12, на широком — сетка два на
+   два с отбивкой строк 40; служебная строка 12 кеглем. */
+.kf-site-footer{
+	display:flex;
+	flex-direction:column;
+	gap:var(--kf-s-24);
+	padding:var(--kf-s-88) var(--kf-page-inline) var(--kf-s-104);
+	color:var(--kf-color-text);
+}
+@media (min-width:641px){
+	.kf-site-footer{
+		display:grid;
+		grid-template-columns:repeat(2,1fr);
+		grid-template-rows:1fr auto;
+		grid-template-areas:"content map" "note map";
+		padding:calc(var(--kf-unit) * 14) var(--kf-page-inline) var(--kf-s-32);
+	}
+	.kf-site-footer__content{ grid-area:content; }
+	.kf-site-footer__map{ grid-area:map; align-self:stretch; min-height:100%; }
+	.kf-site-footer__note{ grid-area:note; }
+}
+@media (min-width:1081px){ .kf-site-footer__content{ padding-inline:var(--kf-s-40); } }
+
+.kf-site-footer__title{
+	font:var(--kf-text-title);
+	letter-spacing:var(--kf-text-title-tracking);
+	line-height:1;
+	margin:0 0 var(--kf-s-32);
+	text-align:center;
+}
+@media (min-width:641px){ .kf-site-footer__title{ margin-bottom:var(--kf-s-56); } }
+.kf-site-footer__title span{ font-family:var(--kf-font-display); color:var(--kf-color-accent); }
+
+.kf-site-footer__contacts{
+	display:flex;
+	flex-direction:column;
+	gap:var(--kf-s-12);
+	margin-bottom:var(--kf-s-8);
+	text-align:center;
+}
+@media (min-width:641px){
+	.kf-site-footer__contacts{
+		display:grid;
+		grid-template-columns:repeat(2,1fr);
+		gap:var(--kf-s-40) var(--kf-s-12);
+		margin-bottom:0;
+	}
+	/* До широкой полосы группа «Контакты» занимает всю строку: три
+	   номера с подписями в половину колонки не читаются. */
+	.kf-site-footer__group:nth-child(3){ grid-column:span 2; }
+}
+@media (min-width:1081px){ .kf-site-footer__group:nth-child(3){ grid-column:auto; } }
+
+.kf-site-footer__group{ display:flex; flex-direction:column; gap:var(--kf-s-12); }
+.kf-site-footer__label{ font:var(--kf-text-contact-label); margin:0; }
+.kf-site-footer__lines{
+	font:var(--kf-text-body);
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	gap:var(--kf-s-8);
+	color:var(--kf-color-text-subdued);
+}
+
+/* Подчёркивание у ссылки появляется по наведению, а на узком экране
+   стоит всегда: пальцем ссылку от текста иначе не отличить. */
+.kf-site-footer__link{
+	position:relative;
+	width:max-content;
+	color:inherit;
+	text-decoration:none;
+}
+.kf-site-footer__link::after{
+	position:absolute;
+	right:0;
+	bottom:0;
+	left:0;
+	height:1px;
+	content:'';
+	transform:scaleX(0);
+	transform-origin:left;
+	transition:transform var(--kf-dur) var(--kf-ease);
+	background:currentColor;
+}
+.kf-site-footer__link:hover::after,
+.kf-site-footer__link:focus-visible::after{ transform:scaleX(1); }
+@media (max-width:640px){ .kf-site-footer__link::after{ transform:scaleX(1); } }
+
+/* Место под карту. На узком экране квадрат, на широком она тянется на
+   всю высоту колонки. */
+.kf-site-footer__map{
+	position:relative;
+	overflow:hidden;
+	border-radius:var(--kf-radius);
+	background:var(--kf-color-placeholder);
+}
+@media (max-width:640px){ .kf-site-footer__map{ aspect-ratio:1 / 1; } }
+.kf-site-footer__map iframe{
+	position:absolute;
+	inset:0;
+	display:block;
+	width:100%;
+	height:100%;
+	border:0;
+}
+
+/* Служебная строка идёт последней на узком экране, а на широком стоит
+   под контактами в своей ячейке сетки. */
+.kf-site-footer__note{
+	font:var(--kf-text-fine);
+	display:flex;
+	flex-direction:column;
+	gap:var(--kf-s-24);
+	order:1;
+	padding-inline:var(--kf-s-32);
+	color:var(--kf-color-text-faint);
+}
+@media (min-width:641px){
+	.kf-site-footer__note{ align-items:center; gap:var(--kf-s-32); order:initial; padding-inline:0; }
+}
+.kf-site-footer__note-links{
+	display:flex;
+	flex-wrap:wrap;
+	justify-content:center;
+	gap:var(--kf-s-8);
+	text-align:center;
+}
+@media (min-width:641px){ .kf-site-footer__note-links{ max-width:calc(var(--kf-unit) * 52.6); } }
+.kf-site-footer__note-links p{ margin:0; }
+.kf-site-footer__note-links a{ color:inherit; }
+.kf-site-footer__studio{ margin:0 auto; text-align:center; }
+.kf-site-footer__studio a{ color:inherit; }
+.kf-site-footer__studio img{ display:block; max-width:var(--kf-s-48); height:auto; aspect-ratio:46 / 22; }

@@ -155,11 +155,17 @@
      пропорции 177 / 48, то есть 6,1 юнита в высоту. */
   --kf-header-space:calc(var(--kf-s-16) * 2 + var(--kf-unit) * 6.102);
   --kf-color-icon:#64605C;
+  /* Служебная строка подвала: тише приглушённого текста. */
+  --kf-color-text-faint:#AFAFAF;
   --kf-text-menu:400 var(--kf-s-16)/var(--kf-s-24) var(--kf-font-text);
   --kf-text-menu-panel:400 var(--kf-s-24)/var(--kf-s-32) var(--kf-font-text);
   /* Плашка «производство в Санкт-Петербурге»: интерлиньяж у неё
      собственный шрифтовой, в вёрстке сайта он не задан. */
   --kf-text-info:400 var(--kf-s-16)/normal var(--kf-font-text);
+  /* Подпись группы контактов и служебная строка подвала. У мелкой
+     строки интерлиньяж шрифтовой — в вёрстке сайта он не задан. */
+  --kf-text-contact-label:500 var(--kf-s-16)/var(--kf-s-24) var(--kf-font-text);
+  --kf-text-fine:400 var(--kf-s-12)/normal var(--kf-font-text);
 }
 
 /* Мобильная ветка: юнит крупнее относительно экрана — 8px при 375.

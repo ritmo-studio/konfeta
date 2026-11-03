@@ -93,4 +93,11 @@ include $root . '/blocks/steps/steps.php';
 include $root . '/blocks/logos/logos.php';
 ?>
 
+<?php
+/* 11. Подвал. Якорь #contacts — цель пункта «Контакты» в шапке. */
+$anchorId = 'contacts';
+include $root . '/atoms/anchor/anchor.php';
+include $root . '/blocks/site-footer/site-footer.php';
+?>
+
 <?php include $engine . '/blocks/main/footer.php'; ?>
