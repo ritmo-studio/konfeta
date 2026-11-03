@@ -100,4 +100,10 @@ include $root . '/atoms/anchor/anchor.php';
 include $root . '/blocks/site-footer/site-footer.php';
 ?>
 
+<?php
+/* 12. Прилипшая кнопка. Последней: она fixed, в потоке места не
+   занимает, а порог показа берёт из content/cta.php. */
+include $root . '/blocks/cta-sticky/cta-sticky.php';
+?>
+
 <?php include $engine . '/blocks/main/footer.php'; ?>

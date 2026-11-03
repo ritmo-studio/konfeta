@@ -1,0 +1,37 @@
+/* Прилипшая кнопка. Значения с утверждённой вёрстки: отступ 16 от
+   правого и нижнего края, на узком экране круг 102 (12,75 юнита) с
+   набором 12/16, на широком — обычная пилюля атома.
+
+   На широком экране кнопка висит всегда, на узком её показывает
+   скрипт — до этого она не перехватывает нажатия. */
+.kf-cta-sticky{
+	position:fixed;
+	z-index:10;
+	right:var(--kf-s-16);
+	bottom:var(--kf-s-16);
+}
+
+@media (max-width:640px){
+	.kf-cta-sticky{
+		pointer-events:none;
+		opacity:0;
+		transition:opacity var(--kf-dur-mid) var(--kf-ease-inout);
+	}
+	.kf-cta-sticky.is-shown{ pointer-events:auto; opacity:1; }
+
+	/* Круг вместо пилюли: подпись в три строки по центру. */
+	.kf-cta-sticky .kf-button{
+		font:400 var(--kf-s-12)/var(--kf-s-16) var(--kf-font-text);
+		display:flex;
+		align-items:center;
+		width:calc(var(--kf-unit) * 12.75);
+		padding:var(--kf-s-8);
+		text-align:center;
+		border-radius:100px;
+		aspect-ratio:1 / 1;
+	}
+}
+
+@media (prefers-reduced-motion:reduce){
+	.kf-cta-sticky{ transition:none; }
+}

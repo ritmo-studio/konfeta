@@ -390,6 +390,23 @@ if (document.readyState ==='loading') document.addEventListener('DOMContentLoade
 else start();
 })();
 (() => {
+const root = document.querySelector('.kf-cta-sticky');
+if (!root) return;
+const narrow = window.matchMedia('(max-width:640px)');
+const after = root.dataset.showAfter ? document.querySelector(root.dataset.showAfter) : null;
+const sync = () => {
+if (!narrow.matches) { root.classList.remove('is-shown'); return; }
+const passed = after
+? after.getBoundingClientRect().bottom <= window.innerHeight
+: window.scrollY >= window.innerHeight;
+root.classList.toggle('is-shown', passed);
+};
+sync();
+window.addEventListener('scroll', sync, { passive: true });
+window.addEventListener('resize', sync);
+narrow.addEventListener('change', sync);
+})();
+(() => {
 const section = document.querySelector('.kf-logos');
 if (!section) return;
 if (!window.matchMedia('(min-width:641px),(pointer:fine)').matches) return;
