@@ -64,6 +64,9 @@
   --kf-color-dark:#24160B;
   --kf-color-accent:#8484F2;
   --kf-color-accent-2:#E7613B;
+  /* Ховер плитки: тёплый оранжевый, светлее акцента-2. Отдельное
+     значение — так на утверждённом сайте. */
+  --kf-color-hover:#ED876A;
   --kf-color-border:#A9A9F5;
 
   --kf-radius-s:var(--kf-s-8);

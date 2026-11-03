@@ -34,14 +34,22 @@
 .kf-filter__tab.is-active{ font-weight:500; }
 .kf-filter__tab.is-active::after{ transform:scaleX(1); }
 
-.kf-filter__label{ font:var(--kf-text-body); color:inherit; }
+/* Подпись поля нужна скринридеру, на экране её нет: поле подписано
+   самим значением, как на утверждённом сайте. */
+.kf-filter__label{
+	position:absolute;
+	overflow:hidden;
+	clip-path:inset(50%);
+	width:1px; height:1px;
+	white-space:nowrap;
+}
 .kf-filter__select{
 	font:var(--kf-text-body);
 	flex:1 1 auto;
 	min-width:0; padding:var(--kf-s-8) var(--kf-s-12);
 	cursor:pointer;
-	color:inherit;
-	border:1px solid currentColor;
+	color:var(--kf-color-text);
+	border:0;
 	border-radius:var(--kf-radius-s);
-	background:none;
+	background:var(--kf-color-card);
 }

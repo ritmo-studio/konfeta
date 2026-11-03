@@ -13,15 +13,9 @@
 	margin-bottom:var(--kf-s-24);
 }
 @media (min-width:641px){
-	/* Заголовок слева, пояснение справа — на утверждённом сайте
-	   пояснение занимает треть и прижато к низу строки заголовка. */
-	.kf-filter-photos__head{
-		display:grid;
-		grid-template-columns:2fr 1fr;
-		align-items:end;
-		gap:var(--kf-s-8);
-		margin-bottom:var(--kf-s-40);
-	}
+	/* Пояснение идёт под заголовком, а не рядом: двухколоночная
+	   раскладка block--title.-grid на этом блоке не включена. */
+	.kf-filter-photos__head{ gap:var(--kf-s-8); margin-bottom:var(--kf-s-40); }
 }
 
 .kf-filter-photos__title{
