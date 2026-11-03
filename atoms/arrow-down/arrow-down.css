@@ -1,0 +1,12 @@
+/* Знак «смотри ниже». Ширина 36 — замер с сайта: svg нарисован
+   38 × 54 и вписан в бокс 36 × 52. */
+.kf-arrow-down{ display:none; }
+@media (min-width:641px){
+	.kf-arrow-down{
+		display:block;
+		flex:0 0 auto;
+		width:var(--kf-s-36);
+		color:var(--kf-color-text-subdued);
+	}
+	.kf-arrow-down svg{ display:block; width:100%; height:auto; }
+}

@@ -2,9 +2,9 @@
 /**
  * Процесс создания упаковки: заголовок со стрелкой и один кадр видео.
  *
- * Стрелка та же, что в kf-filter-photos, — на утверждённом сайте это
- * один и тот же знак «смотри ниже» (36 × 52, тонкая обводка). В атом
- * она не вынесена: два вхождения на страницу, а разметка — один svg.
+ * Знак «смотри ниже» прижат к правому краю: на сайте заголовок
+ * растягивается, а знак стоит по правому краю содержимого. Разметка
+ * знака — atoms/arrow-down, он же в kf-filter-photos и kf-cards-grid.
  *
  * Видео повторяет поведение сайта: без звука, без органов управления,
  * проигрывается один раз. Повтора (loop) на сайте нет — добавлять его
@@ -26,9 +26,7 @@ $poster = (string)($data['poster'] ?? '');
 	<div class="kf-video__head rs-anim">
 		<<?= $hTag ?> class="kf-video__title"><?= $te($title[0]) ?><?php
 			if (!empty($title[1])): ?> <span><?= $te($title[1]) ?></span><?php endif; ?></<?= $hTag ?>>
-		<div class="kf-video__hint" aria-hidden="true">
-			<svg viewBox="0 0 36 52" fill="none"><path d="M18 0v50m0 0 15-15M18 50 3 35" stroke="currentColor" stroke-width="1.5"/></svg>
-		</div>
+		<?php include dirname($_SERVER['DOCUMENT_ROOT']) . '/atoms/arrow-down/arrow-down.php'; ?>
 	</div>
 	<?php if ($src !== ''): ?>
 	<video class="kf-video__player rs-anim" src="<?= $te($src) ?>"<?php

@@ -1,6 +1,6 @@
 /* Процесс создания упаковки. Значения сняты с утверждённой вёрстки
    и приведены к юнитам: отбивка заголовка 16 на узком экране и 24 на
-   широком, стрелка 36 × 52, кадр 340 × 328 на узком и 1032 × 560 на
+   широком, кадр 340 × 328 на узком и 1032 × 560 на
    широком, скругление 8 и 20 соответственно. */
 .kf-video{
 	padding:var(--kf-s-48) var(--kf-page-inline);
@@ -9,11 +9,12 @@
 @media (min-width:641px){ .kf-video{ padding:var(--kf-s-64) var(--kf-page-inline); } }
 @media (min-width:1081px){ .kf-video{ padding:var(--kf-s-88) var(--kf-page-inline); } }
 
-/* Стрелка стоит по нижней линии заголовка: на сайте её низ совпадает
-   с базовой строкой, а не с серединой блока. */
+/* Заголовок слева, знак «смотри ниже» по правому краю содержимого и
+   по нижней линии заголовка — так на сайте. */
 .kf-video__head{
 	display:flex;
 	align-items:flex-end;
+	justify-content:space-between;
 	gap:var(--kf-s-16);
 	margin-bottom:var(--kf-s-16);
 }
@@ -25,14 +26,6 @@
 	margin:0;
 }
 .kf-video__title span{ font-family:var(--kf-font-display); color:var(--kf-color-accent); }
-
-/* На узком экране стрелки нет — на сайте она скрыта, рядом с
-   заголовком в 28 кеглем ей не остаётся строки. */
-.kf-video__hint{ display:none; }
-@media (min-width:641px){
-	.kf-video__hint{ display:block; flex:0 0 auto; width:var(--kf-s-36); }
-	.kf-video__hint svg{ display:block; width:100%; height:auto; }
-}
 
 /* Один селектор на кадр и на место под него: пропорция и скругление
    не должны разъехаться, когда видео придёт. */

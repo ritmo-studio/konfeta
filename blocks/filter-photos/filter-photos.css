@@ -25,18 +25,8 @@
 	justify-content:space-between;
 	gap:var(--kf-s-24);
 }
-/* Стрелка вниз у края — указатель на то, что ниже есть содержимое.
-   На узком экране её в макете нет. */
-.kf-filter-photos__hint{ display:none; }
-@media (min-width:641px){
-	.kf-filter-photos__hint{
-		display:block;
-		flex:0 0 auto;
-		width:var(--kf-s-36);
-		color:var(--kf-color-text);
-	}
-	.kf-filter-photos__hint svg{ display:block; width:100%; height:auto; }
-}
+/* Знак «смотри ниже» у правого края — разметка и вид в
+   atoms/arrow-down. */
 
 .kf-filter-photos__title{
 	font:var(--kf-text-title);
