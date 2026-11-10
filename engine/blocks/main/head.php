@@ -70,6 +70,24 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 
 // Версия для сброса кэша: меняется при правке файла, вручную трогать не нужно.
 $assetVer = @filemtime($_SERVER['DOCUMENT_ROOT'] . '/assets/css/main.css') ?: time();
+
+/**
+ * Минификация HTML. Включена только на боевом хосте: на стейджинге и
+ * в CLI-рендере страница должна читаться глазами и grep'ом — на чтении
+ * отрендеренного HTML держатся все наши проверки, и терять их ради
+ * 130 байт нельзя. Переключатель для проверки руками:
+ *
+ *     RS_HTML_MIN=1 php engine/tools/render.php geo/index.php
+ *
+ * Буфер не закрывается явно: PHP прогоняет его через обработчик и на
+ * нормальном конце скрипта, и на exit посреди страницы. Так фильтр
+ * нельзя забыть выключить в footer.php.
+ */
+$htmlMinify = $htmlMinify ?? (getenv('RS_HTML_MIN') !== false ? getenv('RS_HTML_MIN') === '1' : $isProd);
+if ($htmlMinify) {
+    require __DIR__ . '/html-min.php';
+    ob_start('rs_html_min');
+}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
