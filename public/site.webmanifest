@@ -1,0 +1,10 @@
+{
+  "name": "Конфета — изготовление картонной упаковки на заказ",
+  "short_name": "Конфета",
+  "lang": "ru",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#FBF7F3",
+  "theme_color": "#FBF7F3",
+  "icons": []
+}

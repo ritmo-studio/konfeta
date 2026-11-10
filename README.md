@@ -6,7 +6,7 @@
 SEO Design System.
 
 - Снимок библиотеки: **SEO Design System v.0.78**, Figma `6avxpE8zkv7lLs2G2f4Oah`
-- Движок: **ritmo-engine 0.15**, копией в `engine/` (обновлять `engine/tools/sync-engine.py`)
+- Движок: `ritmo-engine` копией в `engine/`; версия — в `engine/engine.json`, сюда не копируется (обновлять `engine/tools/sync-engine.py`). Сайтовое для движка — домен, счётчик, `theme-color`, шеринг — в `content/site.php`
 - Дата отреза: 2026-11-03
 
 Связи с библиотекой нет: правки сайта в неё не едут, её обновления сюда

@@ -1,31 +1,6 @@
-/* Базовый слой сайта «Ритм». Подключается после tokens.css, до блоков. */
-
-/*! ── Шрифты ────────────────────────────────────────────────────
-   Обе гарнитуры вариативные: один файл закрывает весь диапазон
-   начертаний. Лежат ttf-ом — woff2 вдвое легче, но конвертера
-   в окружении нет; сжать перед боевым запуском.
-
-   Отдаётся woff2, ttf рядом лежит исходником: тот же шрифт, сжатый
-   с учётом структуры таблиц — картинка та же, вес втрое меньше.
-   Конвертация — tools/fonts.py, повторить после замены файлов.
-
-   ВНИМАНИЕ: это TRIAL-версии от TypeType и YFF. На боевом сайте
-   нужна купленная лицензия — пробная коммерческое использование
-   не покрывает.                                                 */
-@font-face{
-  font-family: "TT Fors";
-  src: url("/assets/fonts/TT-Fors-Trial-Variable.woff2") format("woff2");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face{
-  font-family: "YFF RARE";
-  src: url("/assets/fonts/YFF_RARE_VF_TRIAL.woff2") format("woff2");
-  font-weight: 100 950;
-  font-style: normal;
-  font-display: swap;
-}
+/* Базовый слой движка. Подключается после tokens.css сайта, до блоков.
+   Шрифтов здесь нет: @font-face — сайтовое и объявляется в tokens.css
+   сайта (он идёт раньше в сборке). */
 
 *, *::before, *::after { box-sizing: border-box; }
 

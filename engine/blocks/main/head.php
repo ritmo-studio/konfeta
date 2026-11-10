@@ -9,15 +9,28 @@
  *                 $jsonLd (массив → отдаётся как JSON-LD), $headExtra,
  *                 $metaImageW / $metaImageH (размеры картинки шеринга)
  *                 $preloadFonts (шрифты первого экрана)
+ *
+ * Сайтовое — домен, счётчик, og:site_name, theme-color и значения по
+ * умолчанию для шеринга — живёт в content/site.php (образец:
+ * engine/site.example.php). Файлы движка про сайт не знают и между
+ * сайтами не отличаются. Без content/site.php хост считается небоевым
+ * (noindex везде) и счётчик не ставится: ошибка видна, а не молчит.
+ * Сборка (build.py) проверяет, что файл есть и prodHost задан.
  */
 
-$pageTitle       = $pageTitle       ?? 'Студия «Ритм» — дизайн и брендинг, сайты и продвижение';
+$site = dirname(__DIR__, 3) . '/content/site.php';
+$site = is_file($site) ? (array)(require $site) : [];
+$site += ['prodHost' => '', 'name' => '', 'url' => '/', 'title' => '', 'metaImage' => '',
+          'metaImageW' => 0, 'metaImageH' => 0, 'themeColor' => '', 'preloadFonts' => [],
+          'metrikaId' => null];
+
+$pageTitle       = $pageTitle       ?? $site['title'];
 $metaDescription = $metaDescription ?? '';
-$pageUrl         = $pageUrl         ?? 'https://ritmo.studio/';
+$pageUrl         = $pageUrl         ?? $site['url'];
 $canonical       = $canonical       ?? $pageUrl;
-$metaImage       = $metaImage       ?? 'https://ritmo.studio/assets/img/share.jpg';
-$metaImageW      = $metaImageW      ?? 2400;
-$metaImageH      = $metaImageH      ?? 1260;
+$metaImage       = $metaImage       ?? $site['metaImage'];
+$metaImageW      = $metaImageW      ?? $site['metaImageW'];
+$metaImageH      = $metaImageH      ?? $site['metaImageH'];
 $bodyClass       = $bodyClass       ?? '';
 $noindex         = $noindex         ?? false;
 
@@ -43,9 +56,9 @@ $noindex         = $noindex         ?? false;
  * ему нужен UseCanonicalName On: при Off он подставляет в SERVER_NAME
  * тот же клиентский Host, и подделка снова работает.
  */
-$prodHost = 'konfeta.group';
+$prodHost = strtolower((string)$site['prodHost']);
 $host     = strtolower(preg_replace('/:\d+$/', '', $_SERVER['SERVER_NAME'] ?? ''));
-$isProd   = ($host === $prodHost || $host === 'www.' . $prodHost);
+$isProd   = ($prodHost !== '' && ($host === $prodHost || $host === 'www.' . $prodHost));
 if (!$isProd) {
     $noindex = true;
 }
@@ -64,7 +77,7 @@ $jsonLd          = $jsonLd          ?? null;
  * которым ничего не отрисовано, браузер не скачивает вообще —
  * положить такой в preload значит заставить скачать его зря.
  */
-$preloadFonts = $preloadFonts ?? [];  // шрифт сайта не выбран, предзагружать нечего
+$preloadFonts = $preloadFonts ?? $site['preloadFonts'];
 
 $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 
@@ -102,19 +115,23 @@ if ($htmlMinify) {
 <link rel="canonical" href="<?= $e($canonical) ?>">
 
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Ритм">
+<meta property="og:site_name" content="<?= $e($site['name']) ?>">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:url" content="<?= $e($pageUrl) ?>">
 <meta property="og:title" content="<?= $e($pageTitle) ?>">
 <meta property="og:description" content="<?= $e($metaDescription) ?>">
+<?php if ($metaImage): ?>
 <meta property="og:image" content="<?= $e($metaImage) ?>">
 <meta property="og:image:width" content="<?= $e($metaImageW) ?>">
 <meta property="og:image:height" content="<?= $e($metaImageH) ?>">
+<?php endif; ?>
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" href="/assets/img/icons/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/img/icons/apple-touch-icon.png">
-<meta name="theme-color" content="#E5E7DF">
+<?php if ($site['themeColor']): ?>
+<meta name="theme-color" content="<?= $e($site['themeColor']) ?>">
+<?php endif; ?>
 
 <?php foreach ($preloadFonts as $f): ?>
 <link rel="preload" href="<?= $e($f) ?>" as="font" type="font/<?= str_ends_with($f, '.woff2') ? 'woff2' : 'ttf' ?>" crossorigin>

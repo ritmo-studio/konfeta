@@ -12,7 +12,7 @@
  * <noscript> с картинкой, а <div> внутри <head> невалиден — браузер
  * закрывает голову на этом месте и всё следующее уезжает в body.
  */
-$metrikaId = $metrikaId ?? null;  // счётчика у сайта пока нет
+$metrikaId = $metrikaId ?? ($site['metrikaId'] ?? null);   // номер — в content/site.php
 $isProd    = $isProd    ?? false;   // вычислен в head.php
 ?>
 <?php /* Lenis идёт перед main.js: base.js ищет глобал при старте.

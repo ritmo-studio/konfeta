@@ -82,6 +82,32 @@ def check_php():
     return problems
 
 
+def check_site():
+    """
+    То, что забывается на новом сайте и молчит на боевом: без
+    content/site.php любой хост небоевой (noindex везде); без robots.txt
+    и site.webmanifest страница отдаётся, но краулер и браузер получают
+    404 там, где ждут файл. Хук pre-commit не ошибка сборки, но без него
+    однажды уедет сборка от прошлой версии — предупреждаем.
+    """
+    problems = []
+    site = ROOT / "content/site.php"
+    if not site.is_file():
+        problems.append("content/site.php: нет — скопировать engine/site.example.php и заполнить")
+    else:
+        m = re.search(r"'prodHost'\s*=>\s*'([^']*)'", site.read_text(encoding="utf-8"))
+        if not m or not m.group(1) or m.group(1) == "САЙТ.ru":
+            problems.append("content/site.php: prodHost не задан — сайт уйдёт в noindex на боевом")
+    for name in ("robots.txt", "site.webmanifest"):
+        if not (PUBLIC / name).is_file():
+            problems.append(f"public/{name}: нет")
+    hook = ROOT / ".git/hooks/pre-commit"
+    if (ROOT / ".git").exists() and not hook.is_file():
+        print("Предупреждение: хук не установлен — "
+              "cp engine/tools/pre-commit .git/hooks/ && chmod +x .git/hooks/pre-commit")
+    return problems
+
+
 def main():
     all_problems = []
     for suffix, out in ((".css", PUBLIC / "assets/css/main.css"),
@@ -94,7 +120,7 @@ def main():
               f"{small/1024:.1f} КБ (из {raw/1024:.1f}, −{cut}%)")
         print(f"   {names}")
 
-    php_problems = check_php()
+    php_problems = check_php() + check_site()
 
     sitemap.main()
 
@@ -103,7 +129,7 @@ def main():
         for p in all_problems:
             print("  " + p)
     if php_problems:
-        print("\nВывод до заголовков в PHP:")
+        print("\nВывод до заголовков в PHP, сайтовые файлы:")
         for p in php_problems:
             print("  " + p)
 
