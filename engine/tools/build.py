@@ -18,6 +18,7 @@ HTML не собирается — он живёт в PHP-инклюдах и о
 Запуск: python3 engine/tools/build.py
 """
 import re
+import subprocess
 import sys
 
 import minify
@@ -101,6 +102,15 @@ def check_site():
     for name in ("robots.txt", "site.webmanifest"):
         if not (PUBLIC / name).is_file():
             problems.append(f"public/{name}: нет")
+    # config/form.php держит пароль SMTP, var/ — журнал заявок с персональными
+    # данными. Оба вне докрута, но внутри репозитория: не исключены в
+    # .gitignore — уедут первым же git add -A. Проверяется правилом, а не
+    # наличием файла: на сайте без формы исключение всё равно должно стоять.
+    if (ROOT / ".git").exists():
+        for path in ("config/form.php", "var/leads/x"):
+            r = subprocess.run(["git", "-C", str(ROOT), "check-ignore", "-q", path])
+            if r.returncode == 1:
+                problems.append(f".gitignore: не исключает {path.split('/x')[0]} — добавить строки config/form.php и var/")
     hook = ROOT / ".git/hooks/pre-commit"
     if (ROOT / ".git").exists() and not hook.is_file():
         print("Предупреждение: хук не установлен — "

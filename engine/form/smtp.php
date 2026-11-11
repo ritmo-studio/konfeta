@@ -62,7 +62,7 @@ function rs_smtp_send(array $cfg, array $msg): array
 {
     $host    = (string)($cfg['host'] ?? '');
     $port    = (int)($cfg['port'] ?? 465);
-    $secure  = (string)($cfg['secure'] ?? 'ssl');
+    $secure  = strtolower(trim((string)($cfg['secure'] ?? 'ssl')));
     $timeout = (int)($cfg['timeout'] ?? 15);
     $helo    = rs_smtp_header_safe((string)($cfg['helo'] ?? 'localhost'));
     $from    = rs_smtp_header_safe((string)($cfg['from'] ?? ''));
@@ -94,6 +94,9 @@ function rs_smtp_send(array $cfg, array $msg): array
     }
 
     if (!empty($cfg['user'])) {
+        // Пароль уходит base64, то есть открытым текстом: без ssl/tls не слать.
+        // Опечатка в secure должна ронять отправку, а не молча снимать шифрование.
+        if ($secure !== 'ssl' && $secure !== 'tls') { return $fail('AUTH без шифрования: secure должен быть ssl или tls'); }
         if (!rs_smtp_cmd($fp, 'AUTH LOGIN', '334', $r))                              { return $fail('AUTH LOGIN', $r); }
         if (!rs_smtp_cmd($fp, base64_encode((string)$cfg['user']), '334', $r))       { return $fail('логин', $r); }
         if (!rs_smtp_cmd($fp, base64_encode((string)($cfg['pass'] ?? '')), '235', $r)) { return $fail('пароль не принят', $r); }

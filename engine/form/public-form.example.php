@@ -32,5 +32,7 @@ $_SESSION['rs_form_result'] = $result;
 if (!$result['ok']) { $_SESSION['rs_form_old'] = $_POST; }
 
 $back = (string)($_SERVER['HTTP_REFERER'] ?? '/');
-if (!preg_match('~^https?://' . preg_quote((string)($_SERVER['HTTP_HOST'] ?? ''), '~') . '~', $back)) { $back = '/'; }
+// После хоста — конец, путь или запрос: без этой границы проходил бы
+// https://САЙТ.ru.evil.com/, а редирект делается и при провале CSRF.
+if (!preg_match('~^https?://' . preg_quote((string)($_SERVER['HTTP_HOST'] ?? ''), '~') . '(?:[/?#]|$)~', $back)) { $back = '/'; }
 header('Location: ' . strtok($back, '#') . '#lead-form', true, 303);

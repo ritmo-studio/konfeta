@@ -273,6 +273,9 @@ server {
 		fastcgi_pass unix:/var/run/php-fpm/САЙТ.sock;   # подставить свой
 		fastcgi_index index.php;
 		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+		# Стандартный fastcgi_params HTTPS не передаёт, а по нему PHP ставит
+		# флаг secure на cookie сессии формы. Блок только для 443 — поэтому on.
+		fastcgi_param HTTPS on;
 		include fastcgi_params;
 	}
 

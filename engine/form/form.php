@@ -55,10 +55,21 @@ function rs_form_ip(): string
  * минут — а это живой клиент, который просто ошибся в адресе. Отбитые
  * проверками попытки ничего не стоят и ничего не достигают, их не считаем.
  */
+/**
+ * Ключ лимита. IPv6 считается по /64: адресов внутри префикса у клиента
+ * триллионы, и лимит по полному адресу обходится сменой хвоста,
+ * а файлов в var/rate становилось бы по одному на каждый.
+ */
+function rs_form_rate_key(): string
+{
+    $bin = @inet_pton(rs_form_ip());
+    return $bin !== false && strlen($bin) === 16 ? bin2hex(substr($bin, 0, 8)) : rs_form_ip();
+}
+
 function rs_form_rate_file(string $dir): ?string
 {
     if (!is_dir($dir) && !@mkdir($dir, 0700, true) && !is_dir($dir)) { return null; }
-    return $dir . '/' . hash('sha256', rs_form_ip()) . '.json';
+    return $dir . '/' . hash('sha256', rs_form_rate_key()) . '.json';
 }
 
 /** @return int[] отметки за последние сутки */
@@ -96,6 +107,20 @@ function rs_form_rate_hit(string $dir): void
         ftruncate($fp, 0); rewind($fp); fwrite($fp, json_encode($hits));
         @chmod($file, 0600);
     } finally { flock($fp, LOCK_UN); fclose($fp); }
+    rs_form_rate_purge($dir);
+}
+
+/**
+ * Файлы старше суток уже ничего не считают — без чистки папка росла бы
+ * на файл с каждого нового адреса. Раз в ~20 заявок, не на каждой.
+ */
+function rs_form_rate_purge(string $dir): void
+{
+    if (random_int(1, 20) !== 1) { return; }
+    $limit = time() - 86400;
+    foreach (glob($dir . '/*.json') ?: [] as $f) {
+        if (@filemtime($f) < $limit) { @unlink($f); }
+    }
 }
 
 /** Дописывает строку в журнал. false — заявку принимать нельзя. */
