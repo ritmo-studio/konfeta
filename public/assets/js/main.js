@@ -428,6 +428,72 @@ shot.classList.remove('is-visible');
 });
 });
 })();
+(function () {'use strict';
+if (!window.RS) return;
+RS.anim('kf-preloader', function (el, ctx) {
+var root = document.documentElement;
+var leaving = false;
+function lock() {
+root.classList.add('kf-preloader-lock');
+if (window.RS_lenis) { try { window.RS_lenis.stop(); } catch (e) {} }
+}
+function unlock() {
+root.classList.remove('kf-preloader-lock');
+if (window.RS_lenis) { try { window.RS_lenis.start(); } catch (e) {} }
+}
+if (ctx.reduced) { unlock(); return; }
+function waitThenUnlock() {
+var running = [];
+if (typeof el.getAnimations ==='function') {
+try { running = el.getAnimations({ subtree: true }); } catch (e) { running = []; }
+}
+if (running.length) {
+Promise.all(running.map(function (a) { return a.finished; }))
+.then(unlock, unlock);
+}
+setTimeout(unlock, 5000);
+}
+lock();
+waitThenUnlock();
+function sameDoc(a) {
+return a.href.split('#')[0] === location.href.split('#')[0];
+}
+function internal(a) {
+var raw = a.getAttribute('href') ||'';
+if (!raw || raw.charAt(0) ==='#') return false;
+if (/^[a-z]+:/i.test(raw) && !/^https?:/i.test(raw)) return false;
+if (a.hasAttribute('download') || a.target ==='_blank') return false;
+if (a.host !== location.host) return false;
+return !sameDoc(a);
+}
+document.addEventListener('click', function (e) {
+if (e.defaultPrevented || e.button !== 0) return;
+if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+if (!e.target || !e.target.closest) return;
+var a = e.target.closest('a[href]');
+if (!a || !internal(a)) return;
+e.preventDefault();
+if (leaving) return;
+leaving = true;
+var url = a.href;
+var gone = false;
+function go() { if (!gone) { gone = true; location.href = url; } }
+lock();
+el.classList.add('is-covering');
+el.addEventListener('animationend', function (ev) {
+if (ev.animationName ==='kf-wave-in') go();
+});
+setTimeout(go, 900);
+});
+window.addEventListener('pageshow', function (e) {
+if (!e.persisted) return;
+leaving = false;
+el.classList.remove('is-covering');
+lock();
+waitThenUnlock();
+});
+});
+})();
 (() => {
 const toggle = document.querySelector('.kf-site-header__toggle');
 if (!toggle) return;
