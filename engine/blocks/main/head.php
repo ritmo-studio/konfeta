@@ -18,6 +18,46 @@
  * Сборка (build.py) проверяет, что файл есть и prodHost задан.
  */
 
+/**
+ * ЗАЩИТА ОТ МЯГКОГО 404. Панели хостинга настраивают PHP-сайт как
+ * одностраничное приложение: location / { try_files $uri $uri/ /index.php?$args; }
+ * Нашему движку это противопоказано — роутера нет, страница это настоящая
+ * папка с index.php, и правило «не нашёл файл → отдай /index.php» означает,
+ * что ЛЮБОЙ несуществующий адрес отдаёт главную с кодом 200. Для поиска это
+ * бесконечный набор дублей главной, и по виду сайта заметить это нельзя.
+ *
+ * Чинить это только конфигом не выходит: правку затирает первое же сохранение
+ * сайта в панели (FastPanel перегенерирует конфиг целиком), а переопределить
+ * location / из подключаемого файла панели нельзя — два location / в одном
+ * server nginx не примет. Поэтому проверку делает страница: сравниваем адрес
+ * запроса с тем скриптом, который на самом деле исполняется. Разошлись —
+ * значит мы здесь по чужому адресу, и это 404.
+ *
+ * Правильный nginx (engine/tools/nginx.conf.example) всё равно нужен: он
+ * отвечает 404 не запуская PHP. Эта проверка — страховка под него.
+ *
+ * CLI пропускаем: render.php задаёт только DOCUMENT_ROOT, адреса запроса там нет.
+ */
+if (PHP_SAPI !== 'cli' && !defined('RS_ROUTE_CHECKED')) {
+    define('RS_ROUTE_CHECKED', true);
+    $rsPath   = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
+    $rsScript = $_SERVER['SCRIPT_NAME'] ?? '';
+    // Адрес со слэшом на конце обслуживает index.php в своей папке; адрес,
+    // кончающийся на .php, — сам этот файл (form.php, 404.php).
+    $rsWanted = substr($rsPath, -4) === '.php' ? $rsPath : rtrim($rsPath, '/') . '/index.php';
+    // Саму страницу 404 не проверяем: nginx приводит сюда по error_page, и её
+    // адрес запроса намеренно не совпадает со скриптом.
+    if ($rsScript !== $rsWanted && substr($rsScript, -8) !== '/404.php') {
+        // Значения, заданные страницей, на 404 не поедут: разметка Organization
+        // или canonical на главную — это уже дезинформация поиска, а не мелочь.
+        unset($jsonLd, $headExtra, $canonical);
+        $rs404 = $_SERVER['DOCUMENT_ROOT'] . '/404.php';
+        if (is_file($rs404)) { include $rs404; exit; }
+        http_response_code(404);
+        exit;
+    }
+}
+
 $site = dirname(__DIR__, 3) . '/content/site.php';
 $site = is_file($site) ? (array)(require $site) : [];
 $site += ['prodHost' => '', 'name' => '', 'url' => '/', 'title' => '', 'metaImage' => '',
